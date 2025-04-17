@@ -1,0 +1,79 @@
+
+services:
+  frontend_backoffice:
+    image: nginx:alpine
+    container_name: frontend_backoffice
+    volumes:
+      - ./app_backoffice/frontend:/usr/share/nginx/html
+      - ./nginx/frontend_backoffice.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+    restart: always
+
+  frontend_cliente:
+    image: nginx:alpine
+    container_name: frontend_cliente
+    volumes:
+      - ./app_clientes/frontend:/usr/share/nginx/html
+      - ./nginx/frontend_cliente.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app-network
+    restart: always
+
+  backend_cliente:
+    build:
+      context: ./app_clientes/backend
+      dockerfile: Dockerfile
+    container_name: backend_cliente
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=production
+    restart: always
+
+  backend_backoffice:
+    build:
+      context: ./app_backoffice/backend
+      dockerfile: Dockerfile
+    container_name: backend_backoffice
+    networks:
+      - app-network
+    environment:
+      - NODE_ENV=production
+    restart: always
+
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    networks:
+      - app-network
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydb
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: always
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend_backoffice
+      - frontend_cliente
+      - backend_cliente
+      - backend_backoffice
+    networks:
+      - app-network
+    restart: always
+
+volumes:
+  postgres-data:
+
+networks:
+  app-network:
+    driver: bridge
