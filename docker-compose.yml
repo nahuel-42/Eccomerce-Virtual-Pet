@@ -1,41 +1,19 @@
 
 services:
-  frontend_backoffice:
-    image: nginx:alpine
-    container_name: frontend_backoffice
-    volumes:
-      - ./app_backoffice/frontend:/usr/share/nginx/html
-      - ./nginx/frontend_backoffice.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - app-network
-    restart: always
-
-  frontend_cliente:
-    image: nginx:alpine
-    container_name: frontend_cliente
-    volumes:
-      - ./app_clientes/frontend:/usr/share/nginx/html
-      - ./nginx/frontend_cliente.conf:/etc/nginx/conf.d/default.conf
-    networks:
-      - app-network
-    restart: always
-
-  backend_cliente:
+  frontend:
     build:
-      context: ./app_clientes/backend
+      context: ./frontend
       dockerfile: Dockerfile
-    container_name: backend_cliente
+    container_name: frontend
     networks:
       - app-network
-    environment:
-      - NODE_ENV=production
     restart: always
 
-  backend_backoffice:
+  backend:
     build:
-      context: ./app_backoffice/backend
+      context: ./backend
       dockerfile: Dockerfile
-    container_name: backend_backoffice
+    container_name: backend
     networks:
       - app-network
     environment:
@@ -60,17 +38,16 @@ services:
     container_name: nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/logs:/var/log/nginx
     ports:
       - "80:80"
     depends_on:
-      - frontend_backoffice
-      - frontend_cliente
-      - backend_cliente
-      - backend_backoffice
+      - frontend
+      - backend
     networks:
       - app-network
     restart: always
-
+    
 volumes:
   postgres-data:
 
