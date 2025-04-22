@@ -5,6 +5,8 @@ using System.Security.Claims;
 using System.Text;
 using Backend.Data;
 using Backend.Models;
+using Backend.Models.Requests;
+
 
 // Controlador de autenticación que maneja el login y registro de usuarios.
 [Route("user")]
