@@ -27,6 +27,8 @@ builder.Services.AddCors(options =>
 var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
+builder.Services.AddScoped<PasswordService>();
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;

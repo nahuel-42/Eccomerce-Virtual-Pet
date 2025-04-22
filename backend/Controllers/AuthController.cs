@@ -13,14 +13,16 @@ public class AuthController : ControllerBase
 {
     private readonly OrdersDbContext _context;
     private readonly IConfiguration _configuration;
+     private readonly PasswordService _passwordService;
 
     // Constructor del controlador de autenticación.
     // param: context - Contexto de base de datos
     // param: configuration - Configuración del sistema
-    public AuthController(OrdersDbContext context, IConfiguration configuration)
+    public AuthController(OrdersDbContext context, IConfiguration configuration, PasswordService passwordService)
     {
         _context = context;
         _configuration = configuration;
+        _passwordService = passwordService;
     }
 
     // Endpoint para el inicio de sesión de usuario.
@@ -29,10 +31,16 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public IActionResult Login([FromBody] LoginRequest request)
     {
-        // Buscar usuario con email y contraseña provistos (solo para MVP)
-        var user = _context.Users.FirstOrDefault(u => u.Email == request.Email && u.Password == request.Password); // TODO: Hashear la contraseña
-
+        // Buscar usuario por email
+        var user = _context.Users.FirstOrDefault(u => u.Email == request.Username);
+        
         if (user == null)
+            return Unauthorized(new { message = "Invalid credentials" });
+
+        // Verificar si la contraseña coincide con el hash
+        var isPasswordValid = _passwordService.VerifyPassword(user, user.PasswordHash, request.Password);
+
+        if (!isPasswordValid)
             return Unauthorized(new { message = "Invalid credentials" });
 
         // Crear token JWT
@@ -82,7 +90,7 @@ public class AuthController : ControllerBase
         {
             Name = request.Name,
             Email = request.Email,
-            Password = request.Password, // Esto hay que hashearlo
+            PasswordHash = _passwordService.HashPassword(null, request.Password),
             RoleId = 2 // cliente por defecto
         };
 
