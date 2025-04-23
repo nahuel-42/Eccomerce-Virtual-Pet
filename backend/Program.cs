@@ -1,14 +1,21 @@
-using Backend.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+using Backend.Modules.Users.Application.Services;
+using Backend.Modules.Users.Infrastructure.Persistence;
+using Backend.Shared.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuración de la base de datos
-builder.Services.AddDbContext<OrdersDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Misma conexion para todos los entornos
+var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<UsersDbContext>(opts =>
+    opts.UseSqlServer(conn)); // TODO: Que use PostgreSQL
 
 // Habilitar controladores
 builder.Services.AddControllers();
@@ -28,6 +35,7 @@ var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 builder.Services.AddScoped<PasswordService>();
+builder.Services.AddScoped<AuthService>();
 
 builder.Services.AddAuthentication(options =>
 {
