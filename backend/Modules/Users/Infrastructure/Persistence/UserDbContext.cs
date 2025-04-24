@@ -1,0 +1,26 @@
+using Microsoft.EntityFrameworkCore;
+using Backend.Modules.Users.Domain.Entities;
+
+namespace Backend.Modules.Users.Infrastructure.Persistence
+{
+    public class UsersDbContext : DbContext
+    {
+        public UsersDbContext(DbContextOptions<UsersDbContext> options) : base(options) { }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<Role>().HasKey(r => r.Id);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(u => u.RoleId);
+
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}

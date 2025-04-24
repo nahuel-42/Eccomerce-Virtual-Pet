@@ -15,7 +15,7 @@ var builder = WebApplication.CreateBuilder(args);
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<UsersDbContext>(opts =>
-    opts.UseSqlServer(conn)); // TODO: Que use PostgreSQL
+    opts.UseNpgsql(conn)); 
 
 // Habilitar controladores
 builder.Services.AddControllers();
