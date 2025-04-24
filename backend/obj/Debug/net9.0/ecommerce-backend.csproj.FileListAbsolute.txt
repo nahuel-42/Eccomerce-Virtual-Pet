@@ -1,0 +1,8 @@
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.csproj.AssemblyReference.cache
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.AssemblyInfoInputs.cache
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.AssemblyInfo.cs
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.csproj.CoreCompileInputs.cache
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.sourcelink.json
