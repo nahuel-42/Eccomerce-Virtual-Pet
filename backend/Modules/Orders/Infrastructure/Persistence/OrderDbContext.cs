@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Backend.Modules.Orders.Domain.Entities;
+
 namespace Backend.Modules.Orders.Infrastructure.Persistence{
     public class OrderDbContext : DbContext
     {
