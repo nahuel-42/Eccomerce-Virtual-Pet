@@ -2,9 +2,9 @@ using Microsoft.EntityFrameworkCore;
 using Backend.Modules.Orders.Domain.Entities;
 
 namespace Backend.Modules.Orders.Infrastructure.Persistence{
-    public class OrderDbContext : DbContext
+    public class OrdersDbContext : DbContext
     {
-        public OrderDbContext(DbContextOptions<OrderDbContext> options) : base(options) { }
+        public OrdersDbContext(DbContextOptions<OrdersDbContext> options) : base(options) { }
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
@@ -12,6 +12,7 @@ namespace Backend.Modules.Orders.Infrastructure.Persistence{
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("orders");
             // Claves primarias
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
             modelBuilder.Entity<OrderProduct>().HasKey(op => op.Id);

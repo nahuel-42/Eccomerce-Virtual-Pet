@@ -8,9 +8,9 @@ namespace Backend.Modules.Products.Application.Queries {
         
     public class ProductQueries : IProductQueries
     {
-        private readonly ProductDbContext _context;
+        private readonly ProductsDbContext _context;
 
-        public ProductQueries(ProductDbContext context)
+        public ProductQueries(ProductsDbContext context)
         {
             _context = context;
         }

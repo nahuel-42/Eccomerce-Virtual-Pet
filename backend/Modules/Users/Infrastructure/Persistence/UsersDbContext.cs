@@ -12,6 +12,7 @@ namespace Backend.Modules.Users.Infrastructure.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("auth");
             modelBuilder.Entity<User>().HasKey(u => u.Id);
             modelBuilder.Entity<Role>().HasKey(r => r.Id);
 
@@ -21,6 +22,7 @@ namespace Backend.Modules.Users.Infrastructure.Persistence
                 .HasForeignKey(u => u.RoleId);
 
             base.OnModelCreating(modelBuilder);
+            
         }
     }
 }

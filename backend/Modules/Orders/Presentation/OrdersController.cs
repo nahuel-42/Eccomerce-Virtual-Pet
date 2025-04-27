@@ -1,13 +1,15 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Modules.Orders.Infrastructure.Persistence;
+
+
     [ApiController]
     [Route("api/[controller]")]
     public class OrdersController : ControllerBase
     {
-        private readonly OrderDbContext _context;
+        private readonly OrdersDbContext _context;
         private readonly IOrderQueries _orderQueries;
 
-        public OrdersController(OrderDbContext context, IOrderQueries orderQueries)
+        public OrdersController(OrdersDbContext context, IOrderQueries orderQueries)
         {
             _context = context;
             _orderQueries = orderQueries;

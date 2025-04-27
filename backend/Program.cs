@@ -8,22 +8,28 @@ using Backend.Modules.Users.Application.Queries;
 using Backend.Modules.Users.Application.Services;
 using Backend.Modules.Users.Infrastructure.Persistence;
 
-using Backend.Modules.Products.Application.Queries;
-using Backend.Modules.Products.Application.Interfaces;
 using Backend.Modules.Products.Infrastructure.Persistence;
+
+using Backend.Modules.Orders.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuración de la base de datos
 
 // Misma conexion para todos los entornos
-var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+var baseConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-builder.Services.AddDbContext<UsersDbContext>(opts =>
-    opts.UseNpgsql(conn)); 
+// UsersDbContext
+builder.Services.AddDbContext<UsersDbContext>(options =>
+    options.UseNpgsql($"{baseConnectionString};Search Path=auth"));
 
-builder.Services.AddDbContext<ProductDbContext>(opts =>
-    opts.UseNpgsql(conn));
+// ProductsDbContext
+builder.Services.AddDbContext<ProductsDbContext>(options =>
+    options.UseNpgsql($"{baseConnectionString};Search Path=products"));
+
+// OrdersDbContext
+builder.Services.AddDbContext<OrdersDbContext>(options =>
+    options.UseNpgsql($"{baseConnectionString};Search Path=orders"));
 
 // Habilitar controladores
 builder.Services.AddControllers();
@@ -43,7 +49,7 @@ var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
 // Configuracion de interfaces
-builder.Services.AddScoped<IProductQueries, ProductQueries>();
+//builder.Services.AddScoped<IProductQueries, ProductQueries>();
 
 // Configuracion de servicios
 builder.Services.AddScoped<ImporterService>();

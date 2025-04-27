@@ -10,12 +10,12 @@ using Backend.Modules.Users.Infrastructure.Persistence;
 public class ImporterService
 {
     private readonly UsersDbContext _usersDbContext;
-    private readonly ProductDbContext _productsDbContext;
+    private readonly ProductsDbContext _productsDbContext;
     // private readonly OrderDbContext _orderDbContext;
 
 
     // Agregar OrderDBContext cuando se implemente el modulo de orders
-    public ImporterService(UsersDbContext usersDbContext, ProductDbContext productsDbContext)
+    public ImporterService(UsersDbContext usersDbContext, ProductsDbContext productsDbContext)
     {
         _usersDbContext = usersDbContext;
         _productsDbContext = productsDbContext;
