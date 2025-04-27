@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Backend.Modules.Users.Domain.Entities;
-namespace Backend.Shared.Services {
 
+namespace Backend.Shared.Services
+{
     public class PasswordService
     {
         private readonly PasswordHasher<User> _passwordHasher;
@@ -13,14 +14,35 @@ namespace Backend.Shared.Services {
 
         public string HashPassword(User user, string password)
         {
-            return _passwordHasher.HashPassword(user, password);
+            if (user == null)
+                throw new ArgumentNullException(nameof(user));
+            if (string.IsNullOrWhiteSpace(password))
+                throw new ArgumentException("Password cannot be null or empty.", nameof(password));
+
+            var hashedPassword = _passwordHasher.HashPassword(user, password);
+            return hashedPassword;
         }
 
         public bool VerifyPassword(User user, string hashedPassword, string passwordToCheck)
         {
-            var userInfo = new User(user.Name, user.Email);
-            
-            return _passwordHasher.VerifyHashedPassword(userInfo, hashedPassword, passwordToCheck) != PasswordVerificationResult.Failed;
+            if (user == null)
+            {
+                Console.WriteLine("Error: User is null.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(hashedPassword))
+            {
+                Console.WriteLine("Error: hashedPassword is null or empty.");
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(passwordToCheck))
+            {
+                Console.WriteLine("Error: passwordToCheck is null or empty.");
+                return false;
+            }
+
+            var result = _passwordHasher.VerifyHashedPassword(user, hashedPassword, passwordToCheck);
+            return result != PasswordVerificationResult.Failed;
         }
     }
 }

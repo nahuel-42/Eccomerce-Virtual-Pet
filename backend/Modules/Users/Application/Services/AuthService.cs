@@ -30,9 +30,16 @@ namespace Backend.Modules.Users.Application.Services {
         public async Task<LoginResponse?> LoginAsync(LoginRequest request)
         {
             var user = await UserQueries.GetByEmailWithRoleAsync(_context, request.Email);
-            if (user == null ||
-                !_passwordService.VerifyPassword(user, request.Password, user.PasswordHash))
+            if (user == null)
             {
+                Console.WriteLine($"Login failed: User with email {request.Email} not found.");
+                return null;
+            }
+
+            // Console.WriteLine($"Verifying password for user {user.Email}, PasswordHash: {user.PasswordHash ?? "NULL"}");
+            if (!_passwordService.VerifyPassword(user, user.PasswordHash, request.Password))
+            {
+                Console.WriteLine($"Login failed: Invalid password for user {user.Email}.");
                 return null;
             }
 
@@ -42,28 +49,26 @@ namespace Backend.Modules.Users.Application.Services {
             {
                 Subject = new ClaimsIdentity(new[]
                 {
-                    new Claim("id",   user.Id.ToString()),
+                    new Claim("id", user.Id.ToString()),
                     new Claim(ClaimTypes.Name, user.Name),
                     new Claim(ClaimTypes.Role, user.Role.Name)
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
-                SigningCredentials =
-                    new SigningCredentials(new SymmetricSecurityKey(key),
-                                           SecurityAlgorithms.HmacSha256Signature)
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
 
             return new LoginResponse
             {
-                Token     = tokenHandler.WriteToken(token),
+                Token = tokenHandler.WriteToken(token),
                 ExpiresIn = 3600,
-                User      = new UserDto
+                User = new UserDto
                 {
-                    Id   = user.Id,
+                    Id = user.Id,
                     Name = user.Name,
                     Role = new RoleDto
                     {
-                        Id   = user.Role.Id,
+                        Id = user.Role.Id,
                         Name = user.Role.Name
                     }
                 }
