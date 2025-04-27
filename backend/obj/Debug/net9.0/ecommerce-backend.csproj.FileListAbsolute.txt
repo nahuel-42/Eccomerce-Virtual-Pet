@@ -8,8 +8,6 @@ C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\obj\Debug\net9.0\ecommerce-backend.sourcelink.json
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\appsettings.Development.json
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\appsettings.json
-C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\package-lock.json
-C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\package.json
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\ecommerce-backend.staticwebassets.endpoints.json
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\ecommerce-backend.exe
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\ecommerce-backend.deps.json
@@ -18,6 +16,7 @@ C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\ecommerce-backend.pdb
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\Azure.Core.dll
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\Azure.Identity.dll
+C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\CsvHelper.dll
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\Humanizer.dll
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\juaan\OneDrive\Documents\GitHub\Eccomerce-Virtual-Pet\backend\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll

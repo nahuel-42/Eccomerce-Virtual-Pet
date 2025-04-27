@@ -1,9 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Backend.Modules.Products.Domain.Entities;
 namespace Backend.Modules.Products.Infrastructure.Persistence{
-    public class ProductDbContext : DbContext
+    public class ProductsDbContext : DbContext
     {
-        public ProductDbContext(DbContextOptions<ProductDbContext> options)
+        public ProductsDbContext(DbContextOptions<ProductsDbContext> options)
             : base(options) { }
 
         public DbSet<Product> Products { get; set; }
@@ -12,6 +12,7 @@ namespace Backend.Modules.Products.Infrastructure.Persistence{
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.HasDefaultSchema("products");
             // Claves primarias
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
             modelBuilder.Entity<AnimalCategory>().HasKey(ac => ac.Id);
