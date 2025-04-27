@@ -1,8 +1,11 @@
 // Modules/Product/Application/Contracts/IProductQueries.cs
-using Backend.Models.DTOS;
+using Backend.Modules.Products.Application.DTOs;
 
-public interface IProductQueries
-{
-    Task<List<ProductDto>> GetAllAsync();
-    Task<ProductDto?> GetByIdAsync(int id);
+namespace Backend.Modules.Products.Application.Interfaces {
+    public interface IProductQueries
+    {
+        Task<List<ProductDto>> GetAllAsync();
+        Task<ProductDto?> GetByIdAsync(int id);
+    }
 }
+
