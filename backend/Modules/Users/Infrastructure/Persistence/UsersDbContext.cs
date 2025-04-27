@@ -14,7 +14,15 @@ namespace Backend.Modules.Users.Infrastructure.Persistence
         {
             modelBuilder.HasDefaultSchema("auth");
             modelBuilder.Entity<User>().HasKey(u => u.Id);
+            modelBuilder.Entity<User>()
+                .Property(u => u.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
+
             modelBuilder.Entity<Role>().HasKey(r => r.Id);
+
+            modelBuilder.Entity<Role>()
+                .Property(r => r.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role)

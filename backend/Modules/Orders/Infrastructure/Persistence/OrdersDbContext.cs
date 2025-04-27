@@ -15,9 +15,21 @@ namespace Backend.Modules.Orders.Infrastructure.Persistence{
             modelBuilder.HasDefaultSchema("orders");
             // Claves primarias
             modelBuilder.Entity<Order>().HasKey(o => o.Id);
-            modelBuilder.Entity<OrderProduct>().HasKey(op => op.Id);
-            modelBuilder.Entity<OrderStatus>().HasKey(os => os.Id);
+            modelBuilder.Entity<Order>()
+                .Property(o => o.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
 
+            modelBuilder.Entity<OrderProduct>().HasKey(op => op.Id);
+            modelBuilder.Entity<OrderProduct>()
+                .Property(op => op.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
+
+            modelBuilder.Entity<OrderStatus>().HasKey(os => os.Id);
+            modelBuilder.Entity<OrderStatus>()
+                .Property(os => os.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
+
+            // Relaciones
             modelBuilder.Entity<Order>()
                 .HasOne(o => o.OrderStatus)
                 .WithMany(os => os.Orders)
