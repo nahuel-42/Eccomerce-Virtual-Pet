@@ -1,2 +1,6 @@
-Id,Name,Price,Stock,Description
-1,Producto 1,19.99,100,Descripcion del producto 1
+Name,Price,Stock,Description
+Comida para Perros,29.99,100,Comida para perros de alta calidad
+Juguete para Gatos,9.99,200,Juguete divertido para gatos
+Jaula para Pájaros,49.99,50,Jaula espaciosa para pájaros pequeños
+Pipeta,89.99,30,Pipeta antipulgas para mascotas
+Rascador,19.99,150,Rascador para gatos ideal para el cuidado de sus uñas

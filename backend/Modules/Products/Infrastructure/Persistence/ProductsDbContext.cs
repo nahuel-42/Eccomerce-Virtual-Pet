@@ -15,8 +15,19 @@ namespace Backend.Modules.Products.Infrastructure.Persistence{
             modelBuilder.HasDefaultSchema("products");
             // Claves primarias
             modelBuilder.Entity<Product>().HasKey(p => p.Id);
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
+
             modelBuilder.Entity<AnimalCategory>().HasKey(ac => ac.Id);
+            modelBuilder.Entity<AnimalCategory>()
+                .Property(ac => ac.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
+
             modelBuilder.Entity<ProductAnimalCategory>().HasKey(pac => pac.Id);
+            modelBuilder.Entity<ProductAnimalCategory>()
+                .Property(pac => pac.Id)
+                .ValueGeneratedOnAdd();  // Marca el Id como autoincremental
 
             // Relaciones
             modelBuilder.Entity<ProductAnimalCategory>()
