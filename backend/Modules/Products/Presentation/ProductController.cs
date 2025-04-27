@@ -6,7 +6,7 @@ using Backend.Modules.Products.Infrastructure.Persistence;
 namespace Backend.Modules.Products.Presentation
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/products")]
     public class ProductController : ControllerBase
     {
         private readonly IProductQueries _productQueries;
