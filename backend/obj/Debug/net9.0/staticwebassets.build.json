@@ -1,8 +1,8 @@
 {
   "Version": 1,
-  "Hash": "XbW2AP7wReyuqLEC70a2jEdfXyI/JP5ZxgukW+U55GY=",
-  "Source": "orders-backend",
-  "BasePath": "_content/orders-backend",
+  "Hash": "i9uj0P2P977jiYESxn0LyoaTKaH7KR3GxJrdJnlW+uA=",
+  "Source": "ecommerce-backend",
+  "BasePath": "_content/ecommerce-backend",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
