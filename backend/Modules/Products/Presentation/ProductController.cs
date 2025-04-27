@@ -1,10 +1,12 @@
+// Controllers/ProductsController.cs
 using Microsoft.AspNetCore.Mvc;
 using Backend.Modules.Products.Application.Interfaces;
+using Backend.Modules.Products.Infrastructure.Persistence;
 
-namespace Backend.Modules.Cart.Presentation
+namespace Backend.Modules.Products.Presentation
 {
     [ApiController]
-    [Route("products")]
+    [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
         private readonly IProductQueries _productQueries;
@@ -13,12 +15,15 @@ namespace Backend.Modules.Cart.Presentation
         {
             _productQueries = productQueries;
         }
-
+        
         // Obtener todos los productos
         [HttpGet]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productQueries.GetAllAsync();
+            if (products == null || products.Count == 0)
+                return NotFound("No products found.");
+
             return Ok(products);
         }
 
