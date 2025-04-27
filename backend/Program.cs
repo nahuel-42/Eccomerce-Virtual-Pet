@@ -3,9 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+using Backend.Shared.Services;
+using Backend.Modules.Users.Application.Queries;
 using Backend.Modules.Users.Application.Services;
 using Backend.Modules.Users.Infrastructure.Persistence;
-using Backend.Shared.Services;
+
+using Backend.Modules.Products.Application.Queries;
+using Backend.Modules.Products.Application.Interfaces;
+using Backend.Modules.Products.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +21,9 @@ var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 
 builder.Services.AddDbContext<UsersDbContext>(opts =>
     opts.UseNpgsql(conn)); 
+
+builder.Services.AddDbContext<ProductDbContext>(opts =>
+    opts.UseNpgsql(conn));
 
 // Habilitar controladores
 builder.Services.AddControllers();
@@ -34,6 +42,11 @@ builder.Services.AddCors(options =>
 var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
+// Configuracion de interfaces
+builder.Services.AddScoped<IProductQueries, ProductQueries>();
+
+// Configuracion de servicios
+builder.Services.AddScoped<ImporterService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<AuthService>();
 
@@ -72,5 +85,12 @@ app.UseAuthorization();
 
 // Mapear controladores
 app.MapControllers();
+
+// Ejecutar tareas de inicialización, como importar datos
+using (var scope = app.Services.CreateScope())
+{
+    var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
+    await importer.ImportAllAsync();
+}
 
 app.Run();

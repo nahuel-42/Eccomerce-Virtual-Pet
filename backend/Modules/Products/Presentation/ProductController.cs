@@ -1,39 +1,39 @@
 // Controllers/ProductsController.cs
 using Microsoft.AspNetCore.Mvc;
-using Backend.Models.DTOS;
+using Backend.Modules.Products.Application.Interfaces;
 using Backend.Modules.Products.Infrastructure.Persistence;
 
-namespace ProductsApp.Controllers
+namespace Backend.Modules.Products.Presentation
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class ProductsController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly IProductQueries _productQueries;
 
-        public ProductsController(IProductQueries productQueries)
+        public ProductController(IProductQueries productQueries)
         {
             _productQueries = productQueries;
         }
-
+        
+        // Obtener todos los productos
         [HttpGet]
-        public async Task<ActionResult<List<ProductDto>>> GetAll()
+        public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productQueries.GetAllAsync();
-
             if (products == null || products.Count == 0)
                 return NotFound("No products found.");
 
             return Ok(products);
         }
 
+        // Obtener un producto por ID
         [HttpGet("{id}")]
-        public async Task<ActionResult<ProductDto>> GetById(int id)
+        public async Task<IActionResult> GetProductById(int id)
         {
             var product = await _productQueries.GetByIdAsync(id);
-
             if (product == null)
-                return NotFound($"Product with ID {id} not found.");
+                return NotFound(new { message = "Product not found" });
 
             return Ok(product);
         }
