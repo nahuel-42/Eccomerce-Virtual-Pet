@@ -92,7 +92,7 @@ using (var scope = app.Services.CreateScope())
 
     // Importador (lo dejás comentado si querés)
     var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
-    await importer.ImportAllAsync();
+//    await importer.ImportAllAsync();
 }
 
 // Configurar middleware
@@ -110,5 +110,7 @@ app.UseAuthorization();
 
 // Mapear controladores
 app.MapControllers();
+
+app.Urls.Add("http://190.192.237.16:5000");
 
 app.Run();
