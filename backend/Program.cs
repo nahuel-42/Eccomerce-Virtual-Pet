@@ -7,16 +7,12 @@ using Backend.Shared.Services;
 using Backend.Modules.Users.Application.Queries;
 using Backend.Modules.Users.Application.Services;
 using Backend.Modules.Users.Infrastructure.Persistence;
-
 using Backend.Modules.Products.Infrastructure.Persistence;
-
 using Backend.Modules.Orders.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuración de la base de datos
-
-// Misma conexion para todos los entornos
 var baseConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
 // UsersDbContext
@@ -39,7 +35,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // URL del frontend
+        policy.WithOrigins("http://localhost:4200")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -48,10 +44,7 @@ builder.Services.AddCors(options =>
 var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
-// Configuracion de interfaces
-//builder.Services.AddScoped<IProductQueries, ProductQueries>();
-
-// Configuracion de servicios
+// Configuración de servicios
 builder.Services.AddScoped<ImporterService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<AuthService>();
@@ -75,13 +68,39 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
+// 🔥 Validar conexiones antes de arrancar
+using (var scope = app.Services.CreateScope())
+{
+    var usersDbContext = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
+    var productsDbContext = scope.ServiceProvider.GetRequiredService<ProductsDbContext>();
+    var ordersDbContext = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+
+    if (await usersDbContext.Database.CanConnectAsync())
+        Console.WriteLine("✅ Connected to Users database.");
+    else
+        Console.WriteLine("❌ Cannot connect to Users database.");
+
+    if (await productsDbContext.Database.CanConnectAsync())
+        Console.WriteLine("✅ Connected to Products database.");
+    else
+        Console.WriteLine("❌ Cannot connect to Products database.");
+
+    if (await ordersDbContext.Database.CanConnectAsync())
+        Console.WriteLine("✅ Connected to Orders database.");
+    else
+        Console.WriteLine("❌ Cannot connect to Orders database.");
+
+    // Importador (lo dejás comentado si querés)
+    var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
+    // await importer.ImportAllAsync();
+}
+
 // Configurar middleware
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
 
-// Usar CORS
 app.UseCors("AllowFrontend");
 
 app.UseHttpsRedirection();
@@ -91,12 +110,5 @@ app.UseAuthorization();
 
 // Mapear controladores
 app.MapControllers();
-
-// Ejecutar tareas de inicialización, como importar datos
-using (var scope = app.Services.CreateScope())
-{
-    var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
-    await importer.ImportAllAsync();
-}
 
 app.Run();
