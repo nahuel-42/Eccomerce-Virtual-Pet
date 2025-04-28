@@ -8,6 +8,8 @@ using Backend.Modules.Users.Application.Queries;
 using Backend.Modules.Users.Application.Services;
 using Backend.Modules.Users.Infrastructure.Persistence;
 using Backend.Modules.Products.Infrastructure.Persistence;
+using Backend.Modules.Products.Application.Interfaces;
+using Backend.Modules.Products.Application.Queries;
 using Backend.Modules.Orders.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +50,9 @@ var key = Encoding.ASCII.GetBytes(jwtKey);
 builder.Services.AddScoped<ImporterService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<AuthService>();
+
+// Registrar IProductQueries y su implementación
+builder.Services.AddScoped<IProductQueries, ProductQueries>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -92,7 +97,7 @@ using (var scope = app.Services.CreateScope())
 
     // Importador (lo dejás comentado si querés)
     var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
-//    await importer.ImportAllAsync();
+    await importer.ImportAllAsync();
 }
 
 // Configurar middleware
