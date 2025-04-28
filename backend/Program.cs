@@ -111,6 +111,4 @@ app.UseAuthorization();
 // Mapear controladores
 app.MapControllers();
 
-app.Urls.Add("http://190.192.237.16:5000");
-
 app.Run();
