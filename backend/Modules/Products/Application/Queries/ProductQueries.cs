@@ -61,5 +61,29 @@ namespace Backend.Modules.Products.Application.Queries {
                 })
                 .FirstOrDefaultAsync();
         }
+
+        public async Task<List<ProductDto>> GetMultipleByIdAsync(List<int> ids)
+        {
+            return await _context.Products
+                .Include(p => p.ProductAnimalCategories)
+                    .ThenInclude(pac => pac.AnimalCategory)
+                .Where(p => ids.Contains(p.Id))
+                .Select(p => new ProductDto
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    Price = p.Price,
+                    Stock = p.Stock,
+                    Description = p.Description,
+                    AnimalCategories = p.ProductAnimalCategories
+                        .Select(pac => new AnimalCategoryDto
+                        {
+                            Id = pac.AnimalCategory.Id,
+                            Name = pac.AnimalCategory.Name
+                        })
+                        .ToList()
+                })
+                .ToListAsync();
+        }
     }
 }
