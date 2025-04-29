@@ -11,6 +11,9 @@ using Backend.Modules.Products.Infrastructure.Persistence;
 using Backend.Modules.Products.Application.Interfaces;
 using Backend.Modules.Products.Application.Queries;
 using Backend.Modules.Orders.Infrastructure.Persistence;
+using Backend.Modules.Orders.Application.Interfaces;
+using Backend.Modules.Orders.Application.Queries;
+using Backend.Modules.Orders.Application.Factories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -50,9 +53,13 @@ var key = Encoding.ASCII.GetBytes(jwtKey);
 builder.Services.AddScoped<ImporterService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<OrderFactory>();
+builder.Services.AddScoped<OrderUpdater>();
 
 // Registrar IProductQueries y su implementación
 builder.Services.AddScoped<IProductQueries, ProductQueries>();
+builder.Services.AddScoped<IOrderQueries, OrderQueries>();
+builder.Services.AddScoped<IOrderCommands, OrderCommands>();
 
 builder.Services.AddAuthentication(options =>
 {

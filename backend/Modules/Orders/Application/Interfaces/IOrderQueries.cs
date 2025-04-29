@@ -1,8 +1,10 @@
 // En algún archivo como Application/Contracts/IOrderQueries.cs
-using Backend.Models.DTOS;
-using Backend.Modules.Orders.Infrastructure.Persistence;
+using Backend.Modules.Orders.Application.DTOs;
 
-public interface IOrderQueries
-{
-    Task<List<OrderDto>> GetOrdersAsync();
+namespace Backend.Modules.Orders.Application.Interfaces {
+    public interface IOrderQueries
+    {
+        Task<List<OrderDto>> GetOrdersAsync();
+        Task<OrderDto?> GetOrderByIdAsync(int id);
+    }
 }
