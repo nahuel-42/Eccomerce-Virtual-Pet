@@ -7,6 +7,7 @@ using Backend.Shared.Services;
 using Backend.Modules.Users.Application.Queries;
 using Backend.Modules.Users.Application.Services;
 using Backend.Modules.Users.Infrastructure.Persistence;
+using Backend.Modules.Users.Application.Interfaces;
 using Backend.Modules.Products.Infrastructure.Persistence;
 using Backend.Modules.Products.Application.Interfaces;
 using Backend.Modules.Products.Application.Queries;
@@ -61,6 +62,8 @@ builder.Services.AddScoped<IProductQueries, ProductQueries>();
 builder.Services.AddScoped<IProductCommands, ProductCommands>();
 builder.Services.AddScoped<IOrderQueries, OrderQueries>();
 builder.Services.AddScoped<IOrderCommands, OrderCommands>();
+builder.Services.AddScoped<IUserQueries, UserQueries>();
+builder.Services.AddScoped<IRoleQueries, RoleQueries>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -105,7 +108,7 @@ using (var scope = app.Services.CreateScope())
 
     // Importador (lo dejás comentado si querés)
     var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
-   // await importer.ImportAllAsync();
+    await importer.ImportAllAsync();
 }
 
 // Configurar middleware

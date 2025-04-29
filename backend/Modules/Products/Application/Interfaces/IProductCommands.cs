@@ -1,4 +1,4 @@
-using Backend.Modules.Products.Application.DTOs;
+using Backend.Shared.DTOs;
 
 namespace Backend.Modules.Products.Application.Interfaces {
     

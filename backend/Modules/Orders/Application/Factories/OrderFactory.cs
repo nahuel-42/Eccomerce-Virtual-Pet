@@ -25,6 +25,7 @@ namespace Backend.Modules.Orders.Application.Factories
                 OrderStatusId = (int)OrderStatusEnum.Pending,
                 Address = createOrderDto.Address,
                 Phone = createOrderDto.Phone,
+                UserId = createOrderDto.UserId,
                 OrderProducts = orderProducts
             };
             return order;

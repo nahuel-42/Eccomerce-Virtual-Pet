@@ -7,8 +7,10 @@ using System.Text;
 using Backend.Modules.Users.Application.DTOs;
 using Backend.Modules.Users.Domain.Entities;
 using Backend.Modules.Users.Infrastructure.Persistence;
-using Backend.Modules.Users.Application.Queries;
+using Backend.Modules.Users.Application.Interfaces;
 using Backend.Shared.Services;
+using Backend.Shared.DTOs;
+
 
 namespace Backend.Modules.Users.Application.Services {
 
@@ -17,19 +19,25 @@ namespace Backend.Modules.Users.Application.Services {
         private readonly UsersDbContext _context;
         private readonly IConfiguration _configuration;
         private readonly PasswordService _passwordService;
+        private readonly IUserQueries _userQueries;
+        private readonly IRoleQueries _roleQueries;
 
         public AuthService(UsersDbContext context,
                            IConfiguration configuration,
-                           PasswordService passwordService)
+                           PasswordService passwordService,
+                           IUserQueries userQueries,
+                           IRoleQueries roleQueries)
         {
             _context = context;
             _configuration = configuration;
             _passwordService = passwordService;
+            _userQueries = userQueries;
+            _roleQueries = roleQueries;
         }
 
         public async Task<LoginResponse?> LoginAsync(LoginRequest request)
         {
-            var user = await UserQueries.GetByEmailWithRoleAsync(_context, request.Email);
+            var user = await _userQueries.GetUserEntityByEmailAsync(request.Email);
             if (user == null)
             {
                 Console.WriteLine($"Login failed: User with email {request.Email} not found.");
@@ -50,7 +58,6 @@ namespace Backend.Modules.Users.Application.Services {
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim("id", user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.Name),
                     new Claim(ClaimTypes.Role, user.Role.Name)
                 }),
                 Expires = DateTime.UtcNow.AddHours(1),
@@ -69,7 +76,8 @@ namespace Backend.Modules.Users.Application.Services {
                     Role = new RoleDto
                     {
                         Id = user.Role.Id,
-                        Name = user.Role.Name
+                        Name = user.Role.Name,
+                        Description = user.Role.Description
                     }
                 }
             };
@@ -77,7 +85,7 @@ namespace Backend.Modules.Users.Application.Services {
 
         public async Task<RegisterResponse> RegisterAsync(RegisterRequest request)
         {
-            if (await UserQueries.ExistsByEmailAsync(_context, request.Email))
+            if (await _userQueries.ExistsByEmailAsync(request.Email))
                 return new RegisterResponse
                 {
                     Message = "User already exists"
@@ -87,16 +95,17 @@ namespace Backend.Modules.Users.Application.Services {
             var hashed = _passwordService.HashPassword(user, request.Password);
             user.SetPassword(hashed);
 
-            // Obtener el rol por defecto (ID = 2) desde la base de datos usando RoleQueries
-            var defaultRole = await RoleQueries.GetByIdAsync(_context, 2);
+            var defaultRole = await _roleQueries.GetByIdAsync(2);
+            
             if (defaultRole == null)
                 return new RegisterResponse
                 {
                     Message = "Default role not found"
                 };
 
-            user.SetRole(defaultRole);
+            user.SetRole(new Role(defaultRole.Name, defaultRole.Description));
 
+            // TODO: Pasar la logica de creacion de usuarios a un factory
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 

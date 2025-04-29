@@ -5,6 +5,7 @@ namespace Backend.Modules.Orders.Application.DTOs {
         public List<CreateOrderProductDto> Products { get; set; } = new();
         public string Address { get; set; } = null!;
         public string Phone { get; set; } = null!;
+        public int UserId { get; set; }
     }
 
     public class CreateOrderProductDto
