@@ -105,7 +105,7 @@ using (var scope = app.Services.CreateScope())
 
     // Importador (lo dejás comentado si querés)
     var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
-    await importer.ImportAllAsync();
+   // await importer.ImportAllAsync();
 }
 
 // Configurar middleware
