@@ -1,4 +1,4 @@
-using Backend.Modules.Products.Application.DTOs;
+using Backend.Shared.DTOs;
 using Backend.Modules.Products.Application.Interfaces;
 using Backend.Modules.Products.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;

@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Mvc;
-using Backend.Modules.Orders.Infrastructure.Persistence;
-using Backend.Modules.Orders.Application.Interfaces;
 using Backend.Modules.Orders.Application.DTOs;
+using Backend.Modules.Orders.Application.Interfaces;
+using Backend.Modules.Orders.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Backend.Modules.Orders.Presentation{
 
@@ -27,7 +28,7 @@ namespace Backend.Modules.Orders.Presentation{
             {
                 var orders = await _orderQueries.GetOrdersAsync();
                 if (orders == null || orders.Count == 0)
-                    return NotFound("No orders found.");
+                    orders = new List<OrderDto>();
 
                 return Ok(orders);
             }
@@ -55,12 +56,22 @@ namespace Backend.Modules.Orders.Presentation{
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto createOrderDto)
         {
             try
             {
                 if (createOrderDto == null)
                     return BadRequest("Order data is null.");
+                 var userIdClaim = User.FindFirst("id")?.Value;
+
+                if (userIdClaim == null)
+                    return Unauthorized("User ID not found in token.");
+
+                 if (!int.TryParse(userIdClaim, out var userId))
+                    return BadRequest("Invalid User ID format.");
+
+                createOrderDto.UserId = userId;
 
                 // Llamada al servicio para crear la orden
                 var orderId = await _orderCommands.CreateOrderAsync(createOrderDto);

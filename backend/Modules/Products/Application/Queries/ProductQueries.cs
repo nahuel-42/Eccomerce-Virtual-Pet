@@ -1,5 +1,5 @@
 // Modules/Product/Application/Services/ProductQueries.cs
-using Backend.Modules.Products.Application.DTOs;
+using Backend.Shared.DTOs;
 using Microsoft.EntityFrameworkCore;
 using Backend.Modules.Products.Infrastructure.Persistence;
 using Backend.Modules.Products.Application.Interfaces;

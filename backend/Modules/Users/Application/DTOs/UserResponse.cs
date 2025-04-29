@@ -1,3 +1,5 @@
+using Backend.Shared.DTOs;
+
 namespace Backend.Modules.Users.Application.DTOs {
 
     public class LoginResponse {

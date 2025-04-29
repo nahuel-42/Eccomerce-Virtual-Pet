@@ -1,15 +1,35 @@
 using Microsoft.EntityFrameworkCore;
 
 using Backend.Modules.Users.Domain.Entities;
+using Backend.Shared.DTOs;
 using Backend.Modules.Users.Infrastructure.Persistence;
+using Backend.Modules.Users.Application.Interfaces;
 
 namespace Backend.Modules.Users.Application.Queries
 {
-    public static class RoleQueries
+    public class RoleQueries : IRoleQueries
     {
-        public static async Task<Role?> GetByIdAsync(UsersDbContext context, int id)
+        private readonly UsersDbContext _usersDbContext;
+
+        public RoleQueries(UsersDbContext usersDbContext)
         {
-            return await context.Roles.FirstOrDefaultAsync(r => r.Id == id);
+            _usersDbContext = usersDbContext;
+        }
+
+        // Busca un rol por su ID.
+        public async Task<RoleDto> GetByIdAsync(int id)
+        {
+            var role = await _usersDbContext.Roles
+                .FirstOrDefaultAsync(r => r.Id == id);
+            
+            if (role == null) return null;
+
+            return new RoleDto
+            {
+                Id = role.Id,
+                Name = role.Name,
+                Description = role.Description
+            };
         }
     }
 }
