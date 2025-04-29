@@ -27,6 +27,7 @@ namespace Backend.Modules.Products.Application.Queries {
                     Price = p.Price,
                     Stock = p.Stock,
                     Description = p.Description,
+                    ImageUrl = p.ImageUrl,
                     AnimalCategories = p.ProductAnimalCategories
                         .Select(pac => new AnimalCategoryDto
                         {
@@ -51,6 +52,7 @@ namespace Backend.Modules.Products.Application.Queries {
                     Price = p.Price,
                     Stock = p.Stock,
                     Description = p.Description,
+                    ImageUrl = p.ImageUrl,
                     AnimalCategories = p.ProductAnimalCategories
                         .Select(pac => new AnimalCategoryDto
                         {
@@ -75,6 +77,7 @@ namespace Backend.Modules.Products.Application.Queries {
                     Price = p.Price,
                     Stock = p.Stock,
                     Description = p.Description,
+                    ImageUrl = p.ImageUrl,
                     AnimalCategories = p.ProductAnimalCategories
                         .Select(pac => new AnimalCategoryDto
                         {
