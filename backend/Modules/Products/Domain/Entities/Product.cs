@@ -15,6 +15,9 @@ namespace Backend.Modules.Products.Domain.Entities{
         public int Stock { get; set; }
 
         public string? Description { get; set; }
+
+        [MaxLength(255)]
+        public string? ImageUrl { get; set; } 
         public ICollection<ProductAnimalCategory> ProductAnimalCategories { get; set; } = new List<ProductAnimalCategory>();
     }
 }
