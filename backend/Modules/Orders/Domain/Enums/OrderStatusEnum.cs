@@ -1,4 +1,4 @@
-namespace Backend.Modules.Products.Domain.Enums {
+namespace Backend.Modules.Orders.Domain.Enums {
 
     public enum OrderStatusEnum
     {

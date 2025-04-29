@@ -7,26 +7,31 @@ using Backend.Modules.Products.Domain.Entities;
 using Backend.Modules.Products.Infrastructure.Persistence;
 using Backend.Modules.Users.Domain.Entities;
 using Backend.Modules.Users.Infrastructure.Persistence;
+using Backend.Modules.Orders.Domain.Entities;
+using Backend.Modules.Orders.Infrastructure.Persistence;
 using CsvHelper.Configuration.Attributes;
 
 public class ImporterService
 {
     private readonly UsersDbContext _usersDbContext;
     private readonly ProductsDbContext _productsDbContext;
+    private readonly OrdersDbContext _ordersDbContext;
 
-    public ImporterService(UsersDbContext usersDbContext, ProductsDbContext productsDbContext)
+    public ImporterService(UsersDbContext usersDbContext, ProductsDbContext productsDbContext, OrdersDbContext ordersDbContext)
     {
         _usersDbContext = usersDbContext;
         _productsDbContext = productsDbContext;
+        _ordersDbContext = ordersDbContext;
     }
 
     public async Task ImportAllAsync()
     {
-        // await ResetDatabaseAsync();
+        await ResetDatabaseAsync();
         await ImportRolesAsync();
         await ImportProductsAsync();
         await ImportAnimalCategoriesAsync();
         await ImportProductAnimalCategoriesAsync();
+        await ImportOrderStatusesAsync();
     }
 
     private async Task ImportRolesAsync()
@@ -92,6 +97,20 @@ public class ImporterService
         _productsDbContext.AnimalCategories.AddRange(validCategories);
         await _productsDbContext.SaveChangesAsync();
         Console.WriteLine("Animal categories imported successfully.");
+    }
+
+    private async Task ImportOrderStatusesAsync()
+    {
+        if (await _ordersDbContext.OrderStatuses.AnyAsync())
+        {
+            Console.WriteLine("Statuses already exist, skipping import.");
+            return;
+        }
+
+        var statuses = ReadCsv<OrderStatus>("csv/order_statuses.csv");
+        _ordersDbContext.OrderStatuses.AddRange(statuses);
+        await _ordersDbContext.SaveChangesAsync();
+        Console.WriteLine("Statuses imported successfully.");
     }
 
     private async Task ImportProductAnimalCategoriesAsync()

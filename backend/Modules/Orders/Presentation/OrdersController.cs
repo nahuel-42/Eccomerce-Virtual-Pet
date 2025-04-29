@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Backend.Modules.Orders.Infrastructure.Persistence;
 using Backend.Modules.Orders.Application.Interfaces;
+using Backend.Modules.Orders.Application.DTOs;
 
 namespace Backend.Modules.Orders.Presentation{
 
@@ -12,7 +13,7 @@ namespace Backend.Modules.Orders.Presentation{
         private readonly IOrderQueries _orderQueries;
         private readonly IOrderCommands _orderCommands;
 
-        public OrdersController(OrdersDbContext context, IOrderQueries orderQueries)
+        public OrdersController(OrdersDbContext context, IOrderQueries orderQueries, IOrderCommands orderCommands)
         {
             _context = context;
             _orderQueries = orderQueries;
@@ -37,11 +38,11 @@ namespace Backend.Modules.Orders.Presentation{
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderById(Guid id)
+        public async Task<IActionResult> GetOrderById(int id)
         {
             try
             {
-                var order = await _orderQueries.FindAsync(id);
+                var order = await _orderQueries.GetOrderByIdAsync(id);
                 if (order == null)
                     return NotFound($"Order with ID {id} not found.");
 
@@ -54,17 +55,20 @@ namespace Backend.Modules.Orders.Presentation{
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder([FromBody] Order order)
+        public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDto createOrderDto)
         {
             try
             {
-                if (order == null)
-                    return BadRequest("Order is null.");
+                if (createOrderDto == null)
+                    return BadRequest("Order data is null.");
 
-                _context.Orders.Add(order);
-                await _context.SaveChangesAsync();
+                // Llamada al servicio para crear la orden
+                var orderId = await _orderCommands.CreateOrderAsync(createOrderDto);
 
-                return CreatedAtAction(nameof(GetOrderById), new { id = order.Id }, order);
+                return Ok(new OrderResponse{
+                    OrderId = orderId,
+                    Message = "Order successfully created"
+                });
             }
             catch (Exception ex)
             {
@@ -73,46 +77,21 @@ namespace Backend.Modules.Orders.Presentation{
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateOrder(Guid id, [FromBody] Order updatedOrder)
+        public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderDto updateOrderDto)
         {
             try
             {
-                if (updatedOrder == null || id != updatedOrder.Id)
-                    return BadRequest("Order data is invalid.");
+                if (updateOrderDto == null)
+                    return BadRequest("Order data is null.");
 
-                var existingOrder = await _context.Orders.FindAsync(id);
-                if (existingOrder == null)
-                    return NotFound($"Order with ID {id} not found.");
+                // Llamada al servicio para actualizar la orden
+                await _orderCommands.UpdateOrderStatusAsync(id, updateOrderDto);
 
-                // Update fields manually
-                existingOrder.Status = updatedOrder.Status;
-                existingOrder.TotalAmount = updatedOrder.TotalAmount;
-                existingOrder.UpdatedAt = DateTime.UtcNow;
-                // (Agregá acá los campos que quieras actualizar)
-
-                await _context.SaveChangesAsync();
-
-                return NoContent();
+                return Ok(new OrderResponse{ Message = "Order successfully updated" });
             }
-            catch (Exception ex)
+            catch (KeyNotFoundException ex)
             {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteOrder(Guid id)
-        {
-            try
-            {
-                var existingOrder = await _context.Orders.FindAsync(id);
-                if (existingOrder == null)
-                    return NotFound($"Order with ID {id} not found.");
-
-                _context.Orders.Remove(existingOrder);
-                await _context.SaveChangesAsync();
-
-                return NoContent();
+                return NotFound(ex.Message);
             }
             catch (Exception ex)
             {

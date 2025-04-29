@@ -1,5 +1,6 @@
 using Backend.Modules.Orders.Application.DTOs;
 using Backend.Modules.Orders.Domain.Entities;
+using Backend.Modules.Orders.Domain.Enums;
 
 namespace Backend.Modules.Orders.Application.Factories
 {
@@ -8,7 +9,7 @@ namespace Backend.Modules.Orders.Application.Factories
         public void Update(Order order, UpdateOrderDto updateOrderDto)
         {
             if (updateOrderDto.OrderStatusId != null)
-                order.Status = updateOrderDto.OrderStatusId;
+                order.OrderStatusId = updateOrderDto.OrderStatusId ?? 0;
 
             if (!string.IsNullOrEmpty(updateOrderDto.Address))
                 order.Address = updateOrderDto.Address;
@@ -16,7 +17,9 @@ namespace Backend.Modules.Orders.Application.Factories
             if (!string.IsNullOrEmpty(updateOrderDto.Phone))
                 order.Phone = updateOrderDto.Phone;
 
-            if (updateOrderDto.OrderStatusId == OrderStatus.Delivered && order.DeliveredDate == null)
+            if (updateOrderDto.OrderStatusId.HasValue && 
+                updateOrderDto.OrderStatusId == (int)OrderStatusEnum.Delivered && 
+                order.DeliveredDate == null)
             {
                 order.DeliveredDate = DateTime.UtcNow;
                 // Acá podrías también llamar a un servicio para descontar stock si querés.

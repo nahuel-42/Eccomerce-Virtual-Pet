@@ -15,17 +15,17 @@ namespace Backend.Modules.Orders.Application.Factories
             _productQueries = productQueries;
         }
 
-        public Order Create(CreateOrderDto createOrderDto)
+        public async Task<Order> Create(CreateOrderDto createOrderDto)
         {
             var orderProducts = await CreateOrderProductsAsync(createOrderDto.Products);
 
             var order = new Order
             {
                 CreatedDate = DateTime.UtcNow,
-                Status = (int)OrderStatusEnum.Pending,
+                OrderStatusId = (int)OrderStatusEnum.Pending,
                 Address = createOrderDto.Address,
                 Phone = createOrderDto.Phone,
-                Products = orderProducts
+                OrderProducts = orderProducts
             };
             return order;
         }
@@ -34,7 +34,7 @@ namespace Backend.Modules.Orders.Application.Factories
         {
             var productIds = productDtos.Select(p => p.ProductId).ToList();
 
-            var products = await _productService.GetMultipleByIdAsync(productIds);
+            var products = await _productQueries.GetMultipleByIdAsync(productIds);
              var orderProducts = new List<OrderProduct>();
 
             foreach (var productDto in productDtos)

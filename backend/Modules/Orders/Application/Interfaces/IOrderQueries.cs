@@ -5,6 +5,6 @@ namespace Backend.Modules.Orders.Application.Interfaces {
     public interface IOrderQueries
     {
         Task<List<OrderDto>> GetOrdersAsync();
-        Task<OrderDto?> GetOrderByIdAsync(Guid id);
+        Task<OrderDto?> GetOrderByIdAsync(int id);
     }
 }

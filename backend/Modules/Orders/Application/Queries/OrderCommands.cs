@@ -21,7 +21,7 @@ namespace Backend.Modules.Orders.Application.Queries {
 
         public async Task<int> CreateOrderAsync(CreateOrderDto createOrderDto)
         {
-            var order = _orderFactory.Create(createOrderDto);
+            var order = await _orderFactory.Create(createOrderDto);
 
             _context.Orders.Add(order);
             await _context.SaveChangesAsync();
