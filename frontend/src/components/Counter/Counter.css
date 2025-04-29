@@ -1,0 +1,20 @@
+.counter-flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.counter-flex p {
+    padding: 8px;
+    align-self: center;
+    margin-bottom: 0;
+    font-family: 'Alegreya Sans SC', sans-serif; 
+    font-weight: 900;
+    font-size: x-large;
+    
+}
+
+.add-button {
+    margin-bottom: 30px;
+}

@@ -1,0 +1,6 @@
+.gridList {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(200px, 1fr));
+    gap: 16px;
+    width: 100%; /* Ajustamos el ancho del contenedor al 100% */
+}

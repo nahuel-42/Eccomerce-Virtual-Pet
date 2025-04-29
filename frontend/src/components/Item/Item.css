@@ -1,0 +1,24 @@
+.cardProducto img {
+    height: 100%; 
+    max-height: 420px;
+    width: 100%; /* Hacemos que la imagen ocupe el 100% del ancho de la tarjeta */
+    object-fit: cover; /* Ajustamos la imagen para cubrir la tarjeta sin desbordarse */
+    border-radius: 10px; /* Añadimos un borde redondeado a la imagen */
+    margin-bottom: 1rem; /* Agregamos un margen inferior */
+}
+
+.cardProducto {
+    /* max-height: 800px; */
+    border-radius: 10px;
+    width: 100%; /* Cambiamos el ancho a 100% para ocupar el ancho del contenedor */
+    padding: 1rem;
+    margin-bottom: auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Agregamos una sombra sutil */
+    background-color: white; /* Añadimos un fondo blanco para cada tarjeta */
+}
+
+
+.cardProducto h3{
+    font-size: 20px;
+    text-align: center;
+}

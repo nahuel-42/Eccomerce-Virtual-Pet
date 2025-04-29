@@ -1,35 +1,56 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React from 'react';
+import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
+import ItemListContainer from './components/ItemListContainer/ItemListContainer';
+import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
+import Cart from './components/Cart/Cart';
+import Checkout from './components/Checkout/Checkout';
+import LoginForm from './components/Auth/Login/Login';
+import RegistrationForm from './components/Auth/Register/Register';
+import NavBar from './components/NavBar/NavBar';
+import PrivateRoute from './components/Auth/PrivateRoute';
+import { ChartProvider } from './context/ChartContext';
+import { AuthProvider, useAuth } from './context/AuthContext';
+import Footer from './components/Footer/Footer';
 
-function App() {
-  const [count, setCount] = useState(0)
+function AppWrapper() {
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
+
+  const hideNav = ['/login', '/register'].includes(location.pathname);
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      {!hideNav && isAuthenticated && <NavBar />}
+      <Routes>
+        <Route path="/" element={<ItemListContainer />} />
+        <Route path="/category/:idCategoria" element={<ItemListContainer />} />
+        <Route path="/item/:idItem" element={<ItemDetailContainer />} />
+        <Route path="/cart" element={
+          <PrivateRoute>
+            <Cart />
+          </PrivateRoute>
+        } />
+        <Route path="/checkout" element={
+          <PrivateRoute>
+            <Checkout />
+          </PrivateRoute>
+        } />
+        <Route path="/login" element={<LoginForm />} />
+        <Route path="/register" element={<RegistrationForm />} />
+      </Routes>
+      <Footer></Footer>
     </>
-  )
+  );
 }
 
-export default App
+export default function App() {
+  return (
+    <BrowserRouter>
+      <ChartProvider>
+        <AuthProvider>
+          <AppWrapper />
+        </AuthProvider>
+      </ChartProvider>
+    </BrowserRouter>
+  );
+}
