@@ -22,7 +22,6 @@ namespace Backend.Modules.Orders.Application.Factories
                 order.DeliveredDate == null)
             {
                 order.DeliveredDate = DateTime.UtcNow;
-                // Acá podrías también llamar a un servicio para descontar stock si querés.
             }
         }
     }

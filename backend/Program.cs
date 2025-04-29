@@ -58,6 +58,7 @@ builder.Services.AddScoped<OrderUpdater>();
 
 // Registrar IProductQueries y su implementación
 builder.Services.AddScoped<IProductQueries, ProductQueries>();
+builder.Services.AddScoped<IProductCommands, ProductCommands>();
 builder.Services.AddScoped<IOrderQueries, OrderQueries>();
 builder.Services.AddScoped<IOrderCommands, OrderCommands>();
 
