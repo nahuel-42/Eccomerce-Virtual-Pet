@@ -91,9 +91,6 @@ namespace Backend.Modules.Orders.Application.Queries {
             if (userId == null)
                 return null;
             
-            Console.WriteLine($"UserId: {userId}");
-            Console.WriteLine($"Users: {string.Join(", ", users.Select(u => u.Id))}");
-            
             return new OrderUserDto
             {
                 Id = userId,
