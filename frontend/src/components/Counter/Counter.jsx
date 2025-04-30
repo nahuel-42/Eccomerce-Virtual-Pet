@@ -19,12 +19,12 @@ const Counter = ({ inicial, funcionAgregar }) => {
     return (
         <>
             <div className="counter-flex">
-                <Button onClick={decrementar} variant="secondary">-</Button>
+                <button onClick={decrementar} className="btn btn-secondary">-</button>
                 <p> {contador} </p>
-                <Button onClick={incrementar} variant="secondary">+</Button>
+                <button onClick={incrementar} className="btn btn-secondary">+</button>
 
             </div>
-            <Button className="add-button" onClick={() => funcionAgregar(contador)} variant="dark">Agregar al carrito</Button>{' '}
+            <button className="btn btn-dark w-100" onClick={() => funcionAgregar(contador)} >Agregar al carrito</button>{' '}
             
         </>
     )

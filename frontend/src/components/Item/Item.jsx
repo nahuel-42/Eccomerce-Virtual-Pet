@@ -12,9 +12,9 @@ const Item = ({id, name, price, imageUrl, }) => {
             <div className="card-body align-text-bottom mt-3">
               <h4 className='card-title'>{name}</h4>
               <p className='card-text'>${price}</p>
-              <Link to={`/item/${id}`}><Button variant="success" size="sm">
+              <Link to={`/item/${id}`}><button className="btn btn-success" size="sm">
                 Ver detalles
-              </Button></Link>
+              </button></Link>
             </div>
       </div>
   )

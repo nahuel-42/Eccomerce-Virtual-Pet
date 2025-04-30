@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import { ChartContext } from '../../context/ChartContext';
 import { useContext, useState, useEffect } from 'react';
 import Counter from '../Counter/Counter';
-import Button from 'react-bootstrap/Button';
 import Toast from 'react-bootstrap/Toast';
 
 const ItemDetail = ({ id, name, price, imageUrl, description }) => {
@@ -43,7 +42,7 @@ const ItemDetail = ({ id, name, price, imageUrl, description }) => {
     //     <span classNameName='span'> </span>
     //     {/* <p>Stock: {stock} </p> */}
     //     {
-    //       agregarCantidad > 0 ? (<div classNameName='agrega-prod'><Link to="/cart"><Button classNameName='boton-fin' variant="dark">Terminar compra</Button></Link><Link to="/"><Button variant="dark">Ver más productos</Button> </Link></div>) : (<div><Counter inicial={1} funcionAgregar={manejadorCantidad} /><p> {description} </p></div>)
+    //       agregarCantidad > 0 ? (<div classNameName='agrega-prod'><Link to="/cart"><button classNameName='boton-fin' variant="dark">Terminar compra</button></Link><Link to="/"><button variant="dark">Ver más productos</button> </Link></div>) : (<div><Counter inicial={1} funcionAgregar={manejadorCantidad} /><p> {description} </p></div>)
     //     }
     //     {mostrarToast && (
     //       <Toast
@@ -76,10 +75,20 @@ const ItemDetail = ({ id, name, price, imageUrl, description }) => {
               <h2 className="card-title">{name}</h2>
               <p className="card-text">{description}</p>
             </div>
-            <p className='fs-1'> $ {price} </p>
-            <div className='info-prod'>
+            <p className='fs-1 fw-semibold text-success'> $ {price} </p>
+            <div className='info-prod w-100 d-flex flex-column align-items-center'>
               {
-                agregarCantidad > 0 ? (<div classNameName='agrega-prod'><Link to="/cart"><Button classNameName='boton-fin' variant="dark">Terminar compra</Button></Link><Link to="/"><Button variant="dark">Ver más productos</Button> </Link></div>) : (<div><Counter inicial={1} funcionAgregar={manejadorCantidad} /></div>)
+                agregarCantidad > 0 ? (
+                  <div className='d-flex flex-column w-40'>
+                    <Link to="/cart">
+                      <button className='btn btn-dark w-100'>Terminar compra</button>
+                    </Link>
+                    <Link to="/">
+                      <button className='btn btn-secondary mt-2 w-100'>Ver más productos</button> 
+                    </Link>
+                  </div>) 
+                : (
+                    <div><Counter inicial={1} funcionAgregar={manejadorCantidad} /></div>)
               }
               {mostrarToast && (
                 <Toast
@@ -90,7 +99,7 @@ const ItemDetail = ({ id, name, price, imageUrl, description }) => {
                   <Toast.Header>
                     <img src="holder.js/20x20?text=%20" classNameName="rounded me-2" alt="" />
                     <strong classNameName="me-auto">Listo!</strong>
-                    <small>:)</small>
+                    <small>:</small>
                   </Toast.Header>
                   <Toast.Body>Ya tenés tu producto en el carrito!  </Toast.Body>
                 </Toast>
