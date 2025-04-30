@@ -1,19 +1,24 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ItemDetail from "../ItemDetail/ItemDetail";
+import './ItemDetailContainer.css';
+import { fetchProduct } from '../../services/product.service';
 
 const ItemDetailContainer = () => {
   const [producto, setProducto] = useState(null);
   const { idItem } = useParams();
 
   useEffect(() => {
-    // Cargamos los productos guardados en localStorage
-    const productosGuardados = JSON.parse(localStorage.getItem("productos")) || [];
+    async function loadProduct() {
+      const productoDetalle = await fetchProduct(idItem);
+      console.log("🚀 ~ loadProduct ~ productoDetalle:", productoDetalle)
+      console.log("🚀 ~ loadProduct ~ idItem:", idItem)
 
-    // Buscamos el producto cuyo id coincida con el idItem del parámetro
-    const productoEncontrado = productosGuardados.find(prod => prod.id === Number(idItem));
+      setProducto(productoDetalle);
+    }
+    
+    loadProduct();
 
-    setProducto(productoEncontrado);
   }, [idItem]);
 
   if (!producto) {
@@ -21,7 +26,7 @@ const ItemDetailContainer = () => {
   }
 
   return (
-    <div>
+    <div className="detail-container">
       <ItemDetail {...producto} />
     </div>
   );

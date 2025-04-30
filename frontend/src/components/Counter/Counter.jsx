@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import './Counter.css';
 
-const Counter = ({ inicial, stock, funcionAgregar }) => {
+const Counter = ({ inicial, funcionAgregar }) => {
 
     const [contador, setContador] = useState(1);
 
     const incrementar = () => {
-        if (contador < stock) {
-            setContador(contador + 1);
-        }
+        setContador(contador + 1);
     }
 
     const decrementar = () => {
@@ -21,12 +19,12 @@ const Counter = ({ inicial, stock, funcionAgregar }) => {
     return (
         <>
             <div className="counter-flex">
-                <Button onClick={decrementar} variant="secondary">-</Button>
+                <button onClick={decrementar} className="btn btn-secondary">-</button>
                 <p> {contador} </p>
-                <Button onClick={incrementar} variant="secondary">+</Button>
+                <button onClick={incrementar} className="btn btn-secondary">+</button>
 
             </div>
-            <Button className="add-button" onClick={() => funcionAgregar(contador)} variant="dark">Agregar al carrito</Button>{' '}
+            <button className="btn btn-dark w-100" onClick={() => funcionAgregar(contador)} >Agregar al carrito</button>{' '}
             
         </>
     )

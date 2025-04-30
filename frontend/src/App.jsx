@@ -20,7 +20,7 @@ function AppWrapper() {
 
   return (
     <>
-      {!hideNav && isAuthenticated && <NavBar />}
+      {!hideNav && <NavBar />}
       <Routes>
         <Route path="/" element={<ItemListContainer />} />
         <Route path="/category/:idCategoria" element={<ItemListContainer />} />
