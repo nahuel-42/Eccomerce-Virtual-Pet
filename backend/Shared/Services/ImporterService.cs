@@ -26,7 +26,7 @@ public class ImporterService
 
     public async Task ImportAllAsync()
     {
-        await ResetDatabaseAsync();
+        // await ResetDatabaseAsync();
         await ImportRolesAsync();
         await ImportProductsAsync();
         await ImportAnimalCategoriesAsync();
