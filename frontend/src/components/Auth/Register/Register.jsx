@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+import AuthService from '../../../services/auth.service';
+import { useNavigate } from 'react-router-dom';
 import '../Auth.css';
 
 /**
  * RegistrationForm.jsx
  * Formulario de registro con el mismo estilo moderno.
  */
-export function RegistrationForm({ onRegister }) {
+export function RegistrationForm(e) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirm, setConfirm] = useState('');
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate();
   
     const handleSubmit = async (e) => {
       e.preventDefault();
@@ -22,7 +26,8 @@ export function RegistrationForm({ onRegister }) {
       }
       setError(null);
       try {
-        await onRegister({ name, email, password });
+        await AuthService.register({ name, email, password });
+        navigate('/login');
       } catch (err) {
         setError(err.message || 'Error al registrarse');
       }
