@@ -4,18 +4,19 @@ import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 
 //componente para mostrar informacion 
-const Item = ({id, nombre, precio, img}) => {
+const Item = ({id, name, price, imageUrl, }) => {
 
   return (
-    <div className='cardProducto'>
-        <img src={img} alt={nombre} />
-        <h3>{nombre}</h3>
-        {/* <p>{desc}</p> */}
-        <p>Precio: $ {precio}</p>
-        <Link to={`/item/${id}`}><Button variant="secondary" size="sm">
-          Ver detalles
-        </Button></Link>
-    </div>
+      <div key={id} className="card text-start ">
+            <img src={imageUrl} alt={name} className="card-img-top" />
+            <div className="card-body align-text-bottom mt-3">
+              <h4 className='card-title'>{name}</h4>
+              <p className='card-text'>${price}</p>
+              <Link to={`/item/${id}`}><Button variant="success" size="sm">
+                Ver detalles
+              </Button></Link>
+            </div>
+      </div>
   )
 }
 

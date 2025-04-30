@@ -7,7 +7,7 @@ import Counter from '../Counter/Counter';
 import Button from 'react-bootstrap/Button';
 import Toast from 'react-bootstrap/Toast';
 
-const ItemDetail = ({ id, nombre, precio, img, stock, desc }) => {
+const ItemDetail = ({ id, name, price, imageUrl, description }) => {
   //Creamos  un estado local con la cantidad de productos agregados. 
   const [agregarCantidad, setAgregarCantidad] = useState(0);
   const { agregarAlCarrito } = useContext(ChartContext);
@@ -28,43 +28,78 @@ const ItemDetail = ({ id, nombre, precio, img, stock, desc }) => {
 
     setAgregarCantidad(cantidad);
     //voy a crear un objeto con el item y la cantidad
-    const item = { id, nombre, precio };
+    const item = { id, name, price };
     agregarAlCarrito(item, cantidad);
-
   }
 
   return (
-    <div className='contenedor-item'>
+    // <div classNameName='contenedor-item'>
 
-      <img src={img} alt={nombre} />
+    //   <img classNameName='img-detail' src={imageUrl} alt={name} />
 
-      <div className='info-prod'>
-        <h2> {nombre} </h2>
-        <h3> $ {precio} </h3>
-        <span className='span'> </span>
-        {/* <p>Stock: {stock} </p> */}
-        {
-          agregarCantidad > 0 ? (<div className='agrega-prod'><Link to="/cart"><Button className='boton-fin' variant="dark">Terminar compra</Button></Link><Link to="/"><Button variant="dark">Ver más productos</Button> </Link></div>) : (<div><Counter inicial={1} stock={stock} funcionAgregar={manejadorCantidad} /><p> {desc} </p></div>)
-        }
-        {mostrarToast && (
-          <Toast
-          show={mostrarToast}
-          onClose={() => setMostrarToast(false)}
-          className="position-absolute top-0 end-0 mt-2 mr-2"
-        >
-            <Toast.Header>
-              <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-              <strong className="me-auto">Listo!</strong>
-              <small>:)</small>
-            </Toast.Header>
-            <Toast.Body>Ya tenés tu producto en el carrito!  </Toast.Body>
-          </Toast>
-        )}
+    //   <div classNameName='info-prod'>
+    //     <h2> {name} </h2>
+    //     <h3> $ {price} </h3>
+    //     <span classNameName='span'> </span>
+    //     {/* <p>Stock: {stock} </p> */}
+    //     {
+    //       agregarCantidad > 0 ? (<div classNameName='agrega-prod'><Link to="/cart"><Button classNameName='boton-fin' variant="dark">Terminar compra</Button></Link><Link to="/"><Button variant="dark">Ver más productos</Button> </Link></div>) : (<div><Counter inicial={1} funcionAgregar={manejadorCantidad} /><p> {description} </p></div>)
+    //     }
+    //     {mostrarToast && (
+    //       <Toast
+    //       show={mostrarToast}
+    //       onClose={() => setMostrarToast(false)}
+    //       classNameName="position-absolute top-0 end-0 mt-2 mr-2"
+    //     >
+    //         <Toast.Header>
+    //           <img src="holder.js/20x20?text=%20" classNameName="rounded me-2" alt="" />
+    //           <strong classNameName="me-auto">Listo!</strong>
+    //           <small>:)</small>
+    //         </Toast.Header>
+    //         <Toast.Body>Ya tenés tu producto en el carrito!  </Toast.Body>
+    //       </Toast>
+    //     )}
 
+    //   </div>
+
+
+
+    // </div>
+    <div className="card mb-3">
+      <div className="row g-0">
+        <div className="col-md-5">
+          <img className="img-fluid rounded-start" src={imageUrl} alt={name} />
+        </div>
+        <div className="col-md-7">
+          <div className="card-body h-100 d-flex flex-column justify-content-between align-items-center">
+            <div className='text-center'>
+              <h2 className="card-title">{name}</h2>
+              <p className="card-text">{description}</p>
+            </div>
+            <p className='fs-1'> $ {price} </p>
+            <div className='info-prod'>
+              {
+                agregarCantidad > 0 ? (<div classNameName='agrega-prod'><Link to="/cart"><Button classNameName='boton-fin' variant="dark">Terminar compra</Button></Link><Link to="/"><Button variant="dark">Ver más productos</Button> </Link></div>) : (<div><Counter inicial={1} funcionAgregar={manejadorCantidad} /></div>)
+              }
+              {mostrarToast && (
+                <Toast
+                show={mostrarToast}
+                onClose={() => setMostrarToast(false)}
+                classNameName="position-absolute top-0 end-0 mt-2 mr-2"
+              >
+                  <Toast.Header>
+                    <img src="holder.js/20x20?text=%20" classNameName="rounded me-2" alt="" />
+                    <strong classNameName="me-auto">Listo!</strong>
+                    <small>:)</small>
+                  </Toast.Header>
+                  <Toast.Body>Ya tenés tu producto en el carrito!  </Toast.Body>
+                </Toast>
+              )}
+
+            </div>
+          </div>
+        </div>
       </div>
-
-
-
     </div>
   )
 }

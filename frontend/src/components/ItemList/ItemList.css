@@ -1,21 +1,8 @@
 
 .item-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
     width: 100%;
-    gap: 1rem;
-}
-
-.item-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 1rem;
-    width: 200px; 
-    text-align: center;
-    cursor: pointer;
-    background-color: white;
-}
-
-.card {
-    width: 16rem;
+    margin: 20px auto 20px auto;
 }

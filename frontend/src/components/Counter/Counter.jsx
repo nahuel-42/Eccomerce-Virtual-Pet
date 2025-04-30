@@ -2,14 +2,12 @@ import { useState, useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import './Counter.css';
 
-const Counter = ({ inicial, stock, funcionAgregar }) => {
+const Counter = ({ inicial, funcionAgregar }) => {
 
     const [contador, setContador] = useState(1);
 
     const incrementar = () => {
-        if (contador < stock) {
-            setContador(contador + 1);
-        }
+        setContador(contador + 1);
     }
 
     const decrementar = () => {
