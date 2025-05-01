@@ -1,14 +1,40 @@
+# Etapa de build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 
-FROM node:20-alpine
+# Establece el directorio de trabajo
+WORKDIR /src
+
+# Copia el archivo .csproj primero
+COPY ["ecommerce-backend.csproj", "./"]
+
+# Restaura dependencias
+RUN dotnet restore "ecommerce-backend.csproj"
+
+# Copia el resto del código fuente
+COPY . .
+
+# Instala dotnet-ef (herramienta de desarrollo)
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
+
+# Ejecuta las migraciones (suponiendo que ecommerce-backend.csproj es el proyecto raíz)
+RUN dotnet ef database update --context ProductsDbContext --project ecommerce-backend.csproj
+RUN dotnet ef database update --context OrdersDbContext --project ecommerce-backend.csproj
+RUN dotnet ef database update --context UsersDbContext --project ecommerce-backend.csproj
+
+# Publica el proyecto
+RUN dotnet publish "ecommerce-backend.csproj" -c Release -o /app/publish
+
+# Etapa final: runtime
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
 
 WORKDIR /app
 
-COPY package*.json ./
+# Copia los archivos publicados
+COPY --from=build /app/publish .
 
-RUN npm install --production
+# Expone el puerto
+EXPOSE 5000
 
-COPY . .
-
-EXPOSE 3000
-
-CMD ["npm", "start"]
+# Comando de ejecución
+ENTRYPOINT ["dotnet", "ProyectoBackend.dll"]
