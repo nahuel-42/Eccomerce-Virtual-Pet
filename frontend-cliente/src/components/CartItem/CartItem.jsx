@@ -2,10 +2,13 @@ import React from 'react'
 import './CartItem.css';
 const CartItem = ({item, cantidad}) => {
   return (
-    <div>
-        <h3 className='prod-nombre'> {item.nombre}  </h3>
-        <p> Cantidad: {cantidad} </p>
-        <p> Precio: {item.precio} </p>
+    <div className='card-body fw-medium fs-6 justify-content-between d-flex flex-row'>
+        <p className='me-3'>{item.name}</p>
+
+        <div className="d-flex flex-row">
+          <p className='text-secondary'>{cantidad} x</p>
+          <p className='mx-2 fw-semibold'>  $ {item.price} </p>
+        </div>
     </div>
   )
 }
