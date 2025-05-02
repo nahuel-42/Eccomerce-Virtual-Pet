@@ -6,6 +6,5 @@ namespace Backend.Modules.Orders.Application.Interfaces {
     {
         Task<List<OrderDto>> GetOrdersAsync();
         Task<OrderDto?> GetOrderByIdAsync(int id);
-        Task<List<OrderDto>> GetOrdersByUserAsync(int userId);
     }
 }

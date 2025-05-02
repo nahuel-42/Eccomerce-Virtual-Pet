@@ -38,32 +38,6 @@ namespace Backend.Modules.Orders.Presentation{
             }
         }
 
-        [HttpGet]
-        [Route("my-orders")]
-        [Authorize]
-        public async Task<IActionResult> GetOrdersByUser()
-        {
-            try
-            {
-                var userIdClaim = User.FindFirst("id")?.Value;
-                if (userIdClaim == null)
-                    return Unauthorized("User ID not found in token.");
-
-                if (!int.TryParse(userIdClaim, out var userId))
-                    return BadRequest("Invalid User ID format.");
-
-                var orders = await _orderQueries.GetOrdersByUserAsync(userId);
-                if (orders == null || orders.Count == 0)
-                    orders = new List<OrderDto>();
-
-                return Ok(orders);
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, $"Internal server error: {ex.Message}");
-            }
-        }
-
         [HttpGet("{id}")]
         public async Task<IActionResult> GetOrderById(int id)
         {
@@ -89,12 +63,12 @@ namespace Backend.Modules.Orders.Presentation{
             {
                 if (createOrderDto == null)
                     return BadRequest("Order data is null.");
-                var userIdClaim = User.FindFirst("id")?.Value;
+                 var userIdClaim = User.FindFirst("id")?.Value;
 
                 if (userIdClaim == null)
                     return Unauthorized("User ID not found in token.");
 
-                if (!int.TryParse(userIdClaim, out var userId))
+                 if (!int.TryParse(userIdClaim, out var userId))
                     return BadRequest("Invalid User ID format.");
 
                 createOrderDto.UserId = userId;

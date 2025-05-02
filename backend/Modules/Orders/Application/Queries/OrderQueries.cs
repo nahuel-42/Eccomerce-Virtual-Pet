@@ -55,35 +55,6 @@ namespace Backend.Modules.Orders.Application.Queries {
             }).ToList();
         }
 
-        public async Task<List<OrderDto>> GetOrdersByUserAsync(int userId)
-        {
-            var orders = await _context.Orders
-                .Include(o => o.OrderProducts)
-                .Include(o => o.OrderStatus)
-                .Where(o => o.UserId == userId)
-                .ToListAsync();
-
-            var productIds = orders.SelectMany(o => o.OrderProducts.Select(op => op.ProductId)).Distinct().ToList();
-
-            var products = await _productQueries.GetMultipleByIdAsync(productIds);
-            var productDict = products.ToDictionary(p => p.Id, p => p);
-
-            var user = await _userQueries.GetUserByIdAsync(userId);
-
-            return orders.Select(o => new OrderDto
-            {
-                Id = o.Id,
-                CreatedDate = o.CreatedDate,
-                DeliveredDate = o.DeliveredDate,
-                Status = o.OrderStatus?.Name ?? Enum.GetName(typeof(OrderStatusEnum), o.OrderStatusId) ?? "Unknown",
-                Phone = o.Phone,
-                Address = o.Address,
-                User = MapUserToDto(user),
-                TotalPrice = o.OrderProducts.Sum(p => p.ProductQuantity * p.UnitPrice), 
-                Products = MapProductsToDto(o.OrderProducts, productDict)
-            }).ToList();
-        }
-
          public async Task<OrderDto?> GetOrderByIdAsync(int orderId)
         {
             var order = await _context.Orders
