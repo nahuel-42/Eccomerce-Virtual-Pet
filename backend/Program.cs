@@ -82,7 +82,6 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-builder.WebHost.UseUrls("http://0.0.0.0:8080");
 var app = builder.Build();
 
 // 🔥 Validar conexiones antes de arrancar
@@ -127,5 +126,5 @@ app.UseAuthorization();
 
 // Mapear controladores
 app.MapControllers();
-Console.WriteLine("🟢 Backend iniciado correctamente en http://0.0.0.0:8080");
+
 app.Run();
