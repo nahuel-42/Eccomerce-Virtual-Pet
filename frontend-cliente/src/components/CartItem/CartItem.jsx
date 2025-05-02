@@ -2,7 +2,7 @@ import React from 'react'
 import './CartItem.css';
 const CartItem = ({item, cantidad}) => {
   return (
-    <div className='card-body fw-medium fs-6 justify-content-between d-flex flex-row'>
+    <div className='fw-medium fs-6 justify-content-between d-flex flex-row px-2 py-1 '>
         <p className='me-3'>{item.name}</p>
 
         <div className="d-flex flex-row">
