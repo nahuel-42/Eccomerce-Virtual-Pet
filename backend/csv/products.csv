@@ -1,0 +1,6 @@
+Name,Price,Stock,Description,ImageUrl
+Comida para Perros,29.99,100,Comida para perros de alta calidad,/public/images/comida-para-perros.webp
+Juguete para Gatos,9.99,200,Juguete divertido para gatos,/public/images/juguete-para-gatos.webp
+Jaula para Pájaros,49.99,50,Jaula espaciosa para pájaros pequeños,/public/images/jaula-para-pajaros.webp
+Pipeta,89.99,30,Pipeta antipulgas para mascotas,/public/images/pipeta.webp
+Rascador,19.99,150,Rascador para gatos ideal para el cuidado de sus uñas,/public/images/rascador.webp

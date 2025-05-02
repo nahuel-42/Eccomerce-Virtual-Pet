@@ -1,0 +1,25 @@
+h2 {
+    text-align: center;
+}
+
+label {
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"],
+input[type="email"] {
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    width: 100%;
+}
+
+.botones {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 15px;
+}
+
+.miBtn.checkout {
+    width: 50%;
+}

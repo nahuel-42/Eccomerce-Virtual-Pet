@@ -6,7 +6,7 @@ using Backend.Modules.Users.Application.DTOs;
 namespace Backend.Modules.Users.Presentation 
 {
    
-    [Route("user")]
+    [Route("api/user")]
     [ApiController]
     public class AuthController : ControllerBase
     {

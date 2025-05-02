@@ -1,0 +1,52 @@
+.contenedor-item{
+    text-align: center;
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    max-width: 80%;
+}
+
+h2 {
+    font-weight: 500;
+    font-size: 300%;
+    margin-top: 10px;
+}
+
+h3{
+    font-weight: 600;
+    font-size: 250%;
+}
+
+.agrega-cantidad{
+    display: flex;
+    flex-direction: column;
+}
+
+.span{
+    margin-top: 20%;
+    padding-bottom: 20%;
+    border-top: 1px solid black;
+    width: 80%; /* O ajusta el ancho según tus necesidades */
+    display: block; 
+}
+
+.boton-fin{
+    margin-bottom: 20px;
+}
+
+.img-fluid {
+    width: fit-content;
+    height: auto;
+}
+
+.card {
+    width: 80%;
+    height: fit-content;
+}
+
+.card-body {
+    border-left: 1px solid rgb(210, 210, 210);
+}

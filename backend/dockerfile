@@ -1,14 +1,21 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0
 
-FROM node:20-alpine
+WORKDIR /src
 
-WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install --production
+COPY ["ecommerce-backend.csproj", "./"]
+RUN dotnet restore "ecommerce-backend.csproj"
 
 COPY . .
 
-EXPOSE 3000
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
 
-CMD ["npm", "start"]
+RUN dotnet publish "ecommerce-backend.csproj" -c Release -o /app/publish
+COPY ./csv /app/publish/csv
+WORKDIR /app/publish
+
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+EXPOSE 5000
+ENTRYPOINT ["./entrypoint.sh"]

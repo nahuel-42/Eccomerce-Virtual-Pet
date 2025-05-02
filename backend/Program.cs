@@ -3,19 +3,35 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
+using Backend.Shared.Services;
+using Backend.Modules.Users.Application.Queries;
 using Backend.Modules.Users.Application.Services;
 using Backend.Modules.Users.Infrastructure.Persistence;
-using Backend.Shared.Services;
+using Backend.Modules.Users.Application.Interfaces;
+using Backend.Modules.Products.Infrastructure.Persistence;
+using Backend.Modules.Products.Application.Interfaces;
+using Backend.Modules.Products.Application.Queries;
+using Backend.Modules.Orders.Infrastructure.Persistence;
+using Backend.Modules.Orders.Application.Interfaces;
+using Backend.Modules.Orders.Application.Queries;
+using Backend.Modules.Orders.Application.Factories;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuración de la base de datos
+var baseConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-// Misma conexion para todos los entornos
-var conn = builder.Configuration.GetConnectionString("DefaultConnection");
+// UsersDbContext
+builder.Services.AddDbContext<UsersDbContext>(options =>
+    options.UseNpgsql($"{baseConnectionString};Search Path=auth"));
 
-builder.Services.AddDbContext<UsersDbContext>(opts =>
-    opts.UseSqlServer(conn)); // TODO: Que use PostgreSQL
+// ProductsDbContext
+builder.Services.AddDbContext<ProductsDbContext>(options =>
+    options.UseNpgsql($"{baseConnectionString};Search Path=products"));
+
+// OrdersDbContext
+builder.Services.AddDbContext<OrdersDbContext>(options =>
+    options.UseNpgsql($"{baseConnectionString};Search Path=orders"));
 
 // Habilitar controladores
 builder.Services.AddControllers();
@@ -23,9 +39,9 @@ builder.Services.AddControllers();
 // Configuración de CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend", policy =>
+    options.AddPolicy("AllowAll", policy =>
     {
-        policy.WithOrigins("http://localhost:4200") // URL del frontend
+        policy.AllowAnyOrigin()
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -34,8 +50,20 @@ builder.Services.AddCors(options =>
 var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
 
+// Configuración de servicios
+builder.Services.AddScoped<ImporterService>();
 builder.Services.AddScoped<PasswordService>();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<OrderFactory>();
+builder.Services.AddScoped<OrderUpdater>();
+
+// Registrar IProductQueries y su implementación
+builder.Services.AddScoped<IProductQueries, ProductQueries>();
+builder.Services.AddScoped<IProductCommands, ProductCommands>();
+builder.Services.AddScoped<IOrderQueries, OrderQueries>();
+builder.Services.AddScoped<IOrderCommands, OrderCommands>();
+builder.Services.AddScoped<IUserQueries, UserQueries>();
+builder.Services.AddScoped<IRoleQueries, RoleQueries>();
 
 builder.Services.AddAuthentication(options =>
 {
@@ -54,7 +82,35 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.WebHost.UseUrls("http://0.0.0.0:8080");
 var app = builder.Build();
+
+// 🔥 Validar conexiones antes de arrancar
+using (var scope = app.Services.CreateScope())
+{
+    var usersDbContext = scope.ServiceProvider.GetRequiredService<UsersDbContext>();
+    var productsDbContext = scope.ServiceProvider.GetRequiredService<ProductsDbContext>();
+    var ordersDbContext = scope.ServiceProvider.GetRequiredService<OrdersDbContext>();
+
+    if (await usersDbContext.Database.CanConnectAsync())
+        Console.WriteLine("✅ Connected to Users database.");
+    else
+        Console.WriteLine("❌ Cannot connect to Users database.");
+
+    if (await productsDbContext.Database.CanConnectAsync())
+        Console.WriteLine("✅ Connected to Products database.");
+    else
+        Console.WriteLine("❌ Cannot connect to Products database.");
+
+    if (await ordersDbContext.Database.CanConnectAsync())
+        Console.WriteLine("✅ Connected to Orders database.");
+    else
+        Console.WriteLine("❌ Cannot connect to Orders database.");
+
+    // Importador (lo dejás comentado si querés)
+    var importer = scope.ServiceProvider.GetRequiredService<ImporterService>();
+    await importer.ImportAllAsync();
+}
 
 // Configurar middleware
 if (app.Environment.IsDevelopment())
@@ -62,8 +118,7 @@ if (app.Environment.IsDevelopment())
     app.UseDeveloperExceptionPage();
 }
 
-// Usar CORS
-app.UseCors("AllowFrontend");
+app.UseCors("AllowAll");
 
 app.UseHttpsRedirection();
 app.UseRouting();
@@ -72,5 +127,5 @@ app.UseAuthorization();
 
 // Mapear controladores
 app.MapControllers();
-
+Console.WriteLine("🟢 Backend iniciado correctamente en http://0.0.0.0:8080");
 app.Run();

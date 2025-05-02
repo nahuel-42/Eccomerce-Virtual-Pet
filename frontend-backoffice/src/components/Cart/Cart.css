@@ -1,0 +1,48 @@
+.div-cart {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+    margin-left: 20px;
+    width: 100%;
+}
+
+.div-vacio{
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.chart-span{
+   
+    border-top: 1px solid black;
+    width: 50%; /* O ajusta el ancho según tus necesidades */
+    display: block; 
+    margin-bottom: 1%;
+}
+
+.div-container{
+    display: flex;
+    width: 100%;
+}
+
+.btn-vacio{
+    position: absolute;
+    top: 100;
+    right: 0;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.btns{
+    align-items: center;
+    width: 50%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.btn-fin{
+    width: fit-content;
+}
+.btn-prods{
+    width: fit-content;
+    
+}
