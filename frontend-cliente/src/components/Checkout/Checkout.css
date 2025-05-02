@@ -2,13 +2,6 @@ h2 {
     text-align: center;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
 label {
     margin-bottom: 0.5rem;
 }
@@ -29,8 +22,4 @@ input[type="email"] {
 
 .miBtn.checkout {
     width: 50%;
-}
-
-.form-group {
-    margin-bottom: 25px;
 }
