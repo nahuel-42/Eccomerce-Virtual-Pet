@@ -16,7 +16,7 @@ const Checkout = () => {
         event.preventDefault();
         // Verificamos que todos los campos se completen
         if (!address || !phone) {
-            setError("¡Por favor completa todos los campos");
+            setError("¡Por favor completa todos los campos!");
             return;
         }
 
@@ -64,7 +64,7 @@ const Checkout = () => {
                 <div className="row w-100 mt-3">
                     <div className="col-8">
                         <form onSubmit={manejadorSubmit} className="d-flex flex-column justify-content-start align-items-start w-100">
-                            <h2>Checkout</h2>
+                            <p className="fs-2 fw-semibold">Datos de contacto </p>
                             <div className="w-75">
                                 <label htmlFor="address">Dirección</label>
                                 <input 
