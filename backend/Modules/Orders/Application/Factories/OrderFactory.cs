@@ -22,7 +22,7 @@ namespace Backend.Modules.Orders.Application.Factories
             var order = new Order
             {
                 CreatedDate = DateTime.UtcNow,
-                OrderStatusId = (int)OrderStatusEnum.Pending,
+                OrderStatusId = (int)OrderStatusEnum.Recibido,
                 Address = createOrderDto.Address,
                 Phone = createOrderDto.Phone,
                 UserId = createOrderDto.UserId,

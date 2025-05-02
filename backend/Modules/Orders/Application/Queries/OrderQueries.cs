@@ -48,6 +48,7 @@ namespace Backend.Modules.Orders.Application.Queries {
                 DeliveredDate = o.DeliveredDate,
                 Status = o.OrderStatus?.Name ?? Enum.GetName(typeof(OrderStatusEnum), o.OrderStatusId) ?? "Unknown",
                 Phone = o.Phone,
+                Address = o.Address,
                 User = MapUserToDto(o.UserId, users),
                 TotalPrice = o.OrderProducts.Sum(p => p.ProductQuantity * p.UnitPrice), 
                 Products = MapProductsToDto(o.OrderProducts, productDict)
@@ -80,6 +81,7 @@ namespace Backend.Modules.Orders.Application.Queries {
                 DeliveredDate = order.DeliveredDate,
                 Status = order.OrderStatus?.Name ?? Enum.GetName(typeof(OrderStatusEnum), order.OrderStatusId) ?? "Unknown",
                 Phone = order.Phone,
+                Address = order.Address,
                 User = MapUserToDto(user),
                 TotalPrice = order.OrderProducts.Sum(p => p.ProductQuantity * (productDict.ContainsKey(p.ProductId) ? productDict[p.ProductId].Price : 0)), // Calcular TotalPrice
                 Products = MapProductsToDto(order.OrderProducts, productDict)

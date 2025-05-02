@@ -2,9 +2,12 @@ namespace Backend.Modules.Orders.Domain.Enums {
 
     public enum OrderStatusEnum
     {
-        Pending = 1,
-        Shipped = 2,
-        Delivered = 3,
-        Cancelled = 4
+        Recibido = 1,
+        Procesando = 2,
+        Preparando = 3,
+        EnCamino = 4,
+        Entregado = 5,
+        FallaEntrega = 6,
+        Cancelado = 7
     }
 }

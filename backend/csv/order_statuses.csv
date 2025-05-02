@@ -1,5 +1,8 @@
 Name
-Pending
-Shipped
-Delivered
-Cancelled
+Recibido
+Procesando
+Preparando
+EnCamino
+Entregado
+FallaEntrega
+Cancelado

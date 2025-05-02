@@ -207,6 +207,9 @@ public class ImporterService
         await _usersDbContext.Database.ExecuteSqlRawAsync(
             @"TRUNCATE TABLE auth.""Roles"" CASCADE;"
         );
+        await _ordersDbContext.Database.ExecuteSqlRawAsync(
+            @"TRUNCATE TABLE orders.""OrderStatuses"" CASCADE;"
+        );
 
         // Reiniciar secuencias
         await _productsDbContext.Database.ExecuteSqlRawAsync(
@@ -216,6 +219,9 @@ public class ImporterService
         );
         await _usersDbContext.Database.ExecuteSqlRawAsync(
             @"ALTER SEQUENCE auth.""Roles_Id_seq"" RESTART WITH 1;"
+        );
+        await _ordersDbContext.Database.ExecuteSqlRawAsync(
+            @"ALTER SEQUENCE orders.""OrderStatuses_Id_seq"" RESTART WITH 1;"
         );
 
         Console.WriteLine("Database tables truncated and sequences reset successfully.");
