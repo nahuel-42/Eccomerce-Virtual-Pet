@@ -4638,19 +4638,19 @@
     ]
   },
   "packageFolders": {
-    "/home/juaaniolave/.nuget/packages/": {}
+    "C:\\Users\\nieva\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/opt/github/Eccomerce-Virtual-Pet/backend/ecommerce-backend.csproj",
+      "projectUniqueName": "C:\\Users\\nieva\\Desktop\\proyectos\\Eccomerce-Virtual-Pet\\backend\\ecommerce-backend.csproj",
       "projectName": "ecommerce-backend",
-      "projectPath": "/opt/github/Eccomerce-Virtual-Pet/backend/ecommerce-backend.csproj",
-      "packagesPath": "/home/juaaniolave/.nuget/packages/",
-      "outputPath": "/opt/github/Eccomerce-Virtual-Pet/backend/obj/",
+      "projectPath": "C:\\Users\\nieva\\Desktop\\proyectos\\Eccomerce-Virtual-Pet\\backend\\ecommerce-backend.csproj",
+      "packagesPath": "C:\\Users\\nieva\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nieva\\Desktop\\proyectos\\Eccomerce-Virtual-Pet\\backend\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/juaaniolave/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\nieva\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net9.0"
@@ -4734,7 +4734,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

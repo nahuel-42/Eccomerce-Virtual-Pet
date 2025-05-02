@@ -14,6 +14,8 @@ services:
       context: ./frontend-cliente
       dockerfile: Dockerfile
     container_name: frontend-cliente
+    ports:
+      - "5173:80"  # Puerto interno de Nginx 80 a 5173 en el host
     networks:
       - app-network
     restart: always
@@ -28,9 +30,11 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
       ConnectionStrings__DefaultConnection: Host=postgres;Port=5432;Database=ecommerce;Username=ecommerce;Password=1111
     ports:
-      - "5000:5000"
+      - "5000:8080"
     depends_on:
       - postgres
+    networks:
+      - app-network   
 
   postgres:
     container_name: postgres
