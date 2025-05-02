@@ -1,5 +1,5 @@
 // src/config.js
 
-const API_BASE_URL = "https://localhost:5000/api";
+const API_BASE_URL = "http://localhost/api";
 
 export default API_BASE_URL;
