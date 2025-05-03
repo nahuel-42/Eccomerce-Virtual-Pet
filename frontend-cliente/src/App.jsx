@@ -11,6 +11,7 @@ import PrivateRoute from './components/Auth/PrivateRoute';
 import { ChartProvider } from './context/ChartContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Footer from './components/Footer/Footer';
+import Orders from './components/Orders/Orders';
 
 function AppWrapper() {
   const location = useLocation();
@@ -25,6 +26,8 @@ function AppWrapper() {
         <Route path="/" element={<ItemListContainer />} />
         <Route path="/category/:idCategoria" element={<ItemListContainer />} />
         <Route path="/item/:idItem" element={<ItemDetailContainer />} />
+        <Route path="/orders" element={ <Orders/>}/>
+
         <Route path="/cart" element={
           <PrivateRoute>
             <Cart />

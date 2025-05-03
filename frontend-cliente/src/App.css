@@ -1,1 +1,35 @@
 @import "tailwindcss";
+
+/* Colores personalizados para los estados del pedido */
+.bg-light-primary {
+    background-color: #e3f2fd; /* Azul pastel */
+}
+
+.bg-light-warning {
+    background-color: #fff3cd; /* Amarillo pastel */
+}
+
+.bg-light-orange {
+    background-color: #ffe5cc; /* Naranja pastel */
+}
+
+.bg-light-info {
+    background-color: #d1ecf1; /* Azul claro pastel */
+}
+
+.bg-light-success {
+    background-color: #d4edda; /* Verde pastel */
+}
+
+.bg-light-danger {
+    background-color: #f8d7da; /* Rosa pastel */
+}
+
+.bg-light-dark {
+    background-color: #e2e3e5; /* Gris claro pastel */
+}
+
+/* Asegurar que el texto en el badge sea legible */
+.text-white {
+    color: #fff !important;
+}
