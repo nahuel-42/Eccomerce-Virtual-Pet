@@ -12,29 +12,14 @@ function NavBar({ isLoggedIn, onLogout }) {
     };
 
     return (
-        <Navbar expand="md" className="miNavBar py-3" variant="dark">
+        <Navbar expand="md" className="py-3 bg-dark text-light" variant="dark">
             <Container>
                 <Navbar.Brand href="/" className="logo">Virtual Pet</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-nav" />
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="me-auto align-items-center miNav">
                         <Nav.Link href="/" className="nav-link">Inicio</Nav.Link>
-                        <Nav.Link href="/nosotros" className="nav-link">Sobre Nosotros</Nav.Link>
-                        <NavDropdown
-                            title="Categorías"
-                            id="nav-categorias"
-                            className="nav-link"
-                            menuClassName="multi-col-dropdown"
-                        >
-                            <div className="dropdown-grid">
-                                <div>
-                                    <div className="dropdown-header">Categorías por Animal</div>
-                                    <NavDropdown.Item href="/category/perro">Perro</NavDropdown.Item>
-                                    <NavDropdown.Item href="/category/gato">Gato</NavDropdown.Item>
-                                    <NavDropdown.Item href="/category/pajaro">Pájaro</NavDropdown.Item>
-                                </div>
-                            </div>
-                        </NavDropdown>
+                        <Nav.Link href="/pedidos" className="nav-link">Órdenes</Nav.Link>
                     </Nav>
                     <Nav className="align-items-center">
                         {isLoggedIn ? (

@@ -58,6 +58,12 @@ export default function OrdersTable() {
     setShowModal(true);
   };
 
+  const recargarPedidos = () => {
+    getOrders().then((res) => {
+      setRowData(res.data);
+    });
+  };
+
   useEffect(() => {
     getOrders().then((res) => {
       setRowData(res.data);
@@ -72,6 +78,7 @@ export default function OrdersTable() {
           orderId={selectedOrder.id}
           show={showModal}
           onHide={() => setShowModal(false)}
+          onOrderUpdated={recargarPedidos}
         />
       )}
     </div>

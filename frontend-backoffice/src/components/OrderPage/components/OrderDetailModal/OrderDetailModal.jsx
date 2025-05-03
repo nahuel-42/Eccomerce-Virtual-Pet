@@ -3,9 +3,9 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { getOrderById, updateOrder } from '../../../../services/order.service';
 import { ORDER_STATUS_OPTIONS, OrderStatus } from '../../constants/order-status';
 
-export default function OrderDetailModal({ orderId, show, onHide }) {
+export default function OrderDetailModal({ orderId, show, onHide, onOrderUpdated }) {
   const [order, setOrder] = useState(null);
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState();
 
   useEffect(() => {
     if (show) {
@@ -17,8 +17,9 @@ export default function OrderDetailModal({ orderId, show, onHide }) {
   }, [orderId, show]);
 
   const handleSave = () => {
-    updateOrder(orderId, { status }).then(() => {
+    updateOrder(orderId, { orderStatusId: status }).then(() => {
       onHide();
+      onOrderUpdated();
     });
   };
 
@@ -32,24 +33,24 @@ export default function OrderDetailModal({ orderId, show, onHide }) {
       <Modal.Body>
         <p><strong>Dirección:</strong> {order.address}</p>
         <p><strong>Teléfono:</strong> {order.phone}</p>
-        <p><strong>Cliente:</strong> {order.user.name} ({order.user.email})</p>
+        <p><strong>Cliente:</strong> {order.user?.name} ({order.user?.email})</p>
         <p><strong>Productos:</strong></p>
         <ul>
-          {order.products.map((p) => (
-            <li key={p.productId}>
-              {p.name} - {p.quantity} x ${p.unitPrice}
-            </li>
-          ))}
+        {order.products.map((p, idx) => (
+          <li key={`${p.productId}-${idx}`}>
+            {p.name} - {p.quantity} x ${p.unitPrice}
+          </li>
+        ))}
         </ul>
 
         <Form.Group>
           <Form.Label>Estado</Form.Label>
-          <Form.Select value={status} onChange={(e) => setStatus(e.target.value)}>
+          <Form.Select value={status} onChange={(e) => setStatus(Number(e.target.value))}>
             {ORDER_STATUS_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </Form.Select>
         </Form.Group>
       </Modal.Body>

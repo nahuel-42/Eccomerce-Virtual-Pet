@@ -24,7 +24,7 @@ function AppWrapper() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegistrationForm />} />
         <Route
-          path="/orders"
+          path="/pedidos"
           element={
             // <PrivateRoute>
               <OrdersPage />

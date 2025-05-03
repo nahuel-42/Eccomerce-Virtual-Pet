@@ -1,1 +1,27 @@
-@import "tailwindcss";
+.bg-light-primary {
+    background-color: #a8c8ff; /* Azul pastel */
+}
+
+.bg-light-warning {
+    background-color: #fce3a3; /* Amarillo pastel */
+}
+
+.bg-light-orange {
+    background-color: #ffb8a9; /* Naranja pastel */
+}
+
+.bg-light-info {
+    background-color: #a1d8e6; /* Azul claro pastel */
+}
+
+.bg-light-success {
+    background-color: #a9dba3; /* Verde pastel */
+}
+
+.bg-light-danger {
+    background-color: #f8c1d4; /* Rosa pastel */
+}
+
+.bg-light-dark {
+    background-color: #b0b0b0; /* Gris claro pastel */
+}
