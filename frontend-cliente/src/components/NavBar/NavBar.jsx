@@ -13,7 +13,7 @@ function NavBar({ isLoggedIn, onLogout }) {
     };
 
     return (
-        <Navbar expand="md" className="miNavBar py-3" variant="dark">
+        <Navbar expand="md" className="bg-dark text-light py-3" variant="dark">
             <Container>
                 <Navbar.Brand href="/" className="logo">Virtual Pet</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-nav" />

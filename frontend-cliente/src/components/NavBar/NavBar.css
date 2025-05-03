@@ -6,16 +6,12 @@
     gap: 20px;
 }
 
-.miNavBar{
-    background: linear-gradient(135deg, #fce4ec, #bbdefb);
-}
-
 #basic-nav-dropdown{
-    color: black !important;
+    color: white !important;
 }
 
 .logo{
-    color: black;
+    color: white;
     font-size: xx-large;
     font-family: 'Alegreya Sans SC', sans-serif; 
 }
@@ -50,7 +46,7 @@
   }
   
   .nav-link {
-    color: black !important;
+    color: white !important;
     font-weight: 500;
   }
   
