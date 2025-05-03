@@ -18,7 +18,7 @@ namespace Backend.Modules.Orders.Application.Factories
                 order.Phone = updateOrderDto.Phone;
 
             if (updateOrderDto.OrderStatusId.HasValue && 
-                updateOrderDto.OrderStatusId == (int)OrderStatusEnum.Delivered && 
+                updateOrderDto.OrderStatusId == (int)OrderStatusEnum.Entregado && 
                 order.DeliveredDate == null)
             {
                 order.DeliveredDate = DateTime.UtcNow;

@@ -8,6 +8,7 @@ namespace Backend.Modules.Orders.Application.DTOs {
         public string Status { get; set; } = null!;
         public string Phone { get; set; } = null!;
         public decimal? TotalPrice { get; set; }
+        public string Address { get; set; } = null!;
         public OrderUserDto User { get; set; } = null!;
         public List<OrderProductDto> Products { get; set; } = new();
     }

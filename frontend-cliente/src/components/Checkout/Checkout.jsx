@@ -1,155 +1,132 @@
 import { useState, useContext, useEffect } from "react";
 import { ChartContext } from "../../context/ChartContext";
-// import { db } from "../../services/config";
-// import { collection, addDoc, updateDoc, getDoc, doc } from "firebase/firestore";
-import './Checkout.css'
-import { Button } from "react-bootstrap";
-import Toast from 'react-bootstrap/Toast';
-
+import { Link } from "react-router-dom";
+import CartItem from "../CartItem/CartItem";
+import OrderService from "../../services/order.service";
+import './Checkout.css';
 
 const Checkout = () => {
-
     const { carrito, vaciarCarrito, total } = useContext(ChartContext);
-    const [nombre, setNombre] = useState("");
-    const [apellido, setApellido] = useState("");
-    const [telefono, setTelefono] = useState("");
-    const [email, setEmail] = useState("");
-    const [emailConfirmacion, setEmailConfirmacion] = useState("");
-    const [ordenId, setOrdenId] = useState("");
+    const [address, setAddress] = useState("");
+    const [phone, setPhone] = useState("");
+    const [orderId, setOrderId] = useState("");
     const [error, setError] = useState("");
-    const [mostrarToast, setMostrarToast] = useState(false);
 
-
-    const manejadorSubmit = (event) => {
+    const manejadorSubmit = async (event) => {
         event.preventDefault();
-        //Verificamos que todos los campos se completen: 
-        if (!nombre || !apellido || !telefono || !email || !emailConfirmacion) {
-            setError("¡Por favor completa todos los campos");
+        // Verificamos que todos los campos se completen
+        if (!address || !phone) {
+            setError("¡Por favor completa todos los campos!");
             return;
         }
 
-        //Validamos que el email coincida: 
-        if (email !== emailConfirmacion) {
-            setError("Los emails no coinciden");
-            return;
-        }
-
-        //Creamos un objeto con todos los datos de la orden: 
+        // Creamos un objeto con todos los datos de la orden
         const orden = {
-            items: carrito.map(producto => ({
-                id: producto.item.id,
-                nombre: producto.item.nombre,
-                cantidad: producto.cantidad
+            products: carrito.map(producto => ({
+                productId: producto.item.id,
+                quantity: producto.cantidad
             })),
-            total: total,
-            fecha: new Date(),
-            nombre,
-            apellido,
-            telefono,
-            email
-        }
+            address,
+            phone
+        };
 
         console.log('ORDEN: ' + JSON.stringify(orden));
 
-        Promise.all(
-            orden.items.map(async (productoOrden) => {
-                console.log(typeof (productoOrden.id));
-                //Por cada producto obtengo una referencia y a partir de esa referencia el doc. 
-                const productoRef = doc(db, "items", productoOrden.id.toString());
-                console.log('Producto ref ' + productoRef);
-                const productoDoc = await getDoc(productoRef);
-                console.log('Producto doc ' + productoDoc.data);
-                const stockActual = productoDoc.data().stock;
+        try {
+            // Usamos el servicio para crear la orden
+            const newOrderId = await OrderService.createOrder(orden);
 
-                await updateDoc(productoRef, { stock: stockActual - productoOrden.cantidad });
-                //Modifico el stock y subo la actualización. 
-            })
-        )//Guardamos en la base de datos la orden de compra: 
-            .then(() => {
-                addDoc(collection(db, "ordenes"), orden)
-                    .then(docRef => {
-                        setOrdenId(docRef.id);
-                        vaciarCarrito();
-                    })
-                    .catch(error => console.log("Error al crear la orden", error))
-            })
-            .catch(error => {
-                console.log("No pudimos actualizar el stock", error);
-                setError("Error al actualizar el stock");
-            })
-    }
+            // Actualizamos el estado y vaciamos el carrito
+            setOrderId(newOrderId);
+            vaciarCarrito();
+        } catch (err) {
+            console.error("Error al enviar la orden:", err);
+            setError(err.message);
+        }
+    };
 
     return (
-        <div>
-            <h2>Checkout - Finalizamos la Compra </h2>
-
-            <form onSubmit={manejadorSubmit}>
-                {
-                    carrito.map(producto => (
-                        <div key={producto.item.id}>
-                            <p> {producto.item.nombre} x {producto.cantidad} </p>
-                            <p> {producto.item.precio} </p>
-                            <hr />
+        <div className="container mb-5 vh-100">
+            {orderId ? (
+                <div className="row w-100 mt-3 justify-content-center">
+                    <div className="col-8 text-center">
+                        <div className="mt-4 p-3 fs-1 fw-medium">
+                            <p className='me-3'>¡Gracias por tu compra!</p>
+                            <div className="d-flex flex-row justify-content-center p-2 align-bottom">
+                                <p className='me-3'>Tu número de orden es:</p>
+                                <p className='px-2 fs-1 fw-semibold text-white bg-success rounded bg-opacity-75'>#{orderId}</p>
+                            </div>
                         </div>
-                    ))
-                }
-
-                <div className="form-group">
-                    <label htmlFor="nombre"> Nombre </label>
-                    <input type="text" value={nombre} id="nombre" onChange={(e) => setNombre(e.target.value)} />
+                        <Link to="/"> <button className="btn btn-secondary m-2">Ver pedidos</button> </Link>
+                    </div>
                 </div>
+            ) : (
+                <div className="row w-100 mt-3">
+                    <div className="col-8">
+                        <form onSubmit={manejadorSubmit} className="d-flex flex-column justify-content-start align-items-start w-100">
+                            <p className="fs-2 fw-semibold">Datos de contacto </p>
+                            <div className="w-75">
+                                <label htmlFor="address">Dirección</label>
+                                <input 
+                                    className="rounded-3 border-1"
+                                    type="text" 
+                                    value={address} 
+                                    id="address" 
+                                    onChange={(e) => setAddress(e.target.value)} 
+                                />
+                            </div>
 
-                <div className="form-group">
-                    <label htmlFor="apellido"> Apellido </label>
-                    <input type="text" value={apellido} id="apellido" onChange={(e) => setApellido(e.target.value)} />
+                            <div className="w-75 mt-4">
+                                <label htmlFor="phone">Teléfono</label>
+                                <input 
+                                    className="rounded-3 border-1"
+                                    type="text" 
+                                    value={phone} 
+                                    id="phone" 
+                                    onChange={(e) => setPhone(e.target.value)} 
+                                />
+                            </div>
+
+                            {
+                                error && <p style={{ color: "red" }}> {error} </p>
+                            }
+
+                            <div className="w-75 justify-content-end align-items-end d-flex flex-row mt-4">
+                                <button 
+                                    type="submit" 
+                                    disabled={carrito.length === 0} 
+                                    className="btn btn-dark mt-2"
+                                >
+                                    Finalizar Orden
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div className="col-4">
+                        <div className="position-relative bg-white w-100 h-200 justify-content-center bg-opacity-50 rounded-3 shadow p-3">
+                            <p className="fs-2 fw-semibold p-2">Resumen de compra</p>
+                            <div className="d-flex flex-column w-100 overflow-y-auto" style={{ maxHeight: '200px' }}> 
+                            {
+                                carrito.map(prod => (
+                                    <div key={prod.item.id}>
+                                        <CartItem {...prod} />
+                                    </div>
+                                ))
+                            }
+                            </div>
+                            <div className="w-100">
+                                <hr />
+                                <div className="d-flex flex-row justify-content-between p-2 align-bottom">
+                                    <p className='fs-1 fw-semibold me-3'>Total: </p>
+                                    <p className='fs-1 fw-semibold text-success'>$ {total} </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-
-                <div className="form-group">
-                    <label htmlFor="telefono"> Telefono </label>
-                    <input type="text" value={telefono} id="telefono" onChange={(e) => setTelefono(e.target.value)} />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="email"> E-mail </label>
-                    <input type="email" value={email} id="email" onChange={(e) => setEmail(e.target.value)} />
-                </div>
-
-                <div className="form-group">
-                    <label htmlFor="emailcon"> Email Confirmación </label>
-                    <input type="email" value={emailConfirmacion} id="emailcon" onChange={(e) => setEmailConfirmacion(e.target.value)} />
-                </div>
-
-                {
-                    error && <p style={{ color: "red" }}> {error} </p>
-                }
-
-                <div className="botones">
-                    <Button type="submit" disabled={carrito.length === 0} variant="dark" onClick={() => {setError(''); setMostrarToast(true)}}>Finalizar Orden</Button>
-                </div>
-
-                {ordenId && (
-                    <Toast
-                        show={mostrarToast}
-                        onClose={() => setMostrarToast(false)}
-                        className="position-absolute top-0 end-0 mt-2 mr-2"
-                    >
-                        <Toast.Header>
-                            <img src="holder.js/20x20?text=%20" className="rounded me-2" alt="" />
-                            <strong className="me-auto">Listo!</strong>
-                            <small>:)</small>
-                        </Toast.Header>
-                        <Toast.Body>Orden generada con éxito! Revisa tu casilla de correo. </Toast.Body>
-                        <Toast.Body> <strong>Nro de orden: {ordenId} </strong> </Toast.Body>
-                    </Toast>
-                )}
-                {
-                    ordenId && <strong>¡Gracias por su compra {nombre}! Tu número de orden es el siguiente: {ordenId} </strong>
-                }
-
-
-            </form>
+            )}
         </div>
-    )
-}
+    );
+};
 
-export default Checkout
+export default Checkout;

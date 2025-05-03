@@ -19,7 +19,7 @@ const Cart = () => {
     }
     
     return (
-        <div className="container mb-5 ">
+        <div className="container mb-5 vh-100">
             <div className="row w-100 mt-3">
                 <div className="col-8 justify-content-between">
                     <p className="fs-2 fw-semibold">Mi carrito </p>
@@ -27,7 +27,7 @@ const Cart = () => {
                         <p className="fs-5 fw-semibold">Producto</p>
                         <p className="fs-5 fw-semibold me-3">Subtotal</p>
                     </div>
-                    <div className="d-flex flex-column card w-100 "> 
+                    <div className="d-flex flex-column card w-100 p-3 "> 
                     {
                         carrito.map(prod => (
                             <div key={prod.item.id}>
@@ -36,11 +36,11 @@ const Cart = () => {
                         ))
                     }
                     </div>
-                    <button className="btn btn-danger mt-2" size="sm" onClick={() => vaciarCarrito()}>Vaciar Carrito</button>
+                    <button className="btn btn-secondary mt-2" size="sm" onClick={() => vaciarCarrito()}>Vaciar Carrito</button>
                 </div>
                 <div className="col-4">
-                    <div className="bg-white w-100 h-100 justify-content-center align-items-center bg-opacity-50 rounded-3 shadow p-3">
-                        <p className="fs-2 fw-semibold">Resumen de compra</p>
+                    <div className="bg-white w-100 justify-content-center align-items-center bg-opacity-50 rounded-3 shadow p-3">
+                        <p className="fs-2 fw-semibold">Pedido actual</p>
                         <div className="w-100">
                             <div className="d-flex flex-row justify-content-between p-2">
                                 <p className='fs-1 fw-semibold me-3'>Total: </p>

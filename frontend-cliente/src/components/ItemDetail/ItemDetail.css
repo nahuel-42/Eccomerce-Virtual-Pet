@@ -38,8 +38,8 @@ h3{
 }
 
 .img-fluid {
-    height: 600px;
-    width: 100%;
+    width: fit-content;
+    height: auto;
 }
 
 .card {
