@@ -19,7 +19,14 @@ export function LoginForm() {
     setError(null);
     try {
       const response = await AuthService.login({ email, password });
-      login(response.token);
+
+      // Cambiar el número de rol de admin
+      if (response.user?.role?.id !== 3) {
+        setError('No tenés permisos para acceder a esta aplicación.');
+        return;
+      }
+
+      login(response.token, response.user.id);
       navigate('/');
     } catch (err) {
       setError(err.message || 'Error al iniciar sesión');
@@ -56,13 +63,10 @@ export function LoginForm() {
 
           {error && <div className="error-message">{error}</div>}
 
-          <Button type="submit" className="submit-btn w-100 mb-3">
+          <Button type="submit" className="submit-btn w-100 my-3">
             Entrar
           </Button>
         </Form>
-        <div className="auth-footer">
-          <a href="/register" className="auth-link">¿No tienes cuenta? Regístrate</a>
-        </div>
       </div>
     </div>
   );

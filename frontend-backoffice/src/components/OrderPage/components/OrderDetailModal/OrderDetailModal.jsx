@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { getOrderById, updateOrder } from '../../../../services/order.service';
-import { ORDER_STATUS_OPTIONS, OrderStatus } from '../../constants/order-status';
+import { ORDER_STATUS_OPTIONS } from '../../constants/order-status';
 
 export default function OrderDetailModal({ orderId, show, onHide, onOrderUpdated }) {
   const [order, setOrder] = useState(null);

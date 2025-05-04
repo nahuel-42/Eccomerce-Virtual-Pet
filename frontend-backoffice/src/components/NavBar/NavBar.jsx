@@ -1,14 +1,18 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import { useAuth } from '../../context/AuthContext';
 import { FiLogOut, FiLogIn } from 'react-icons/fi';
 import './NavBar.css';
+import { useNavigate } from 'react-router-dom';
 
-function NavBar({ isLoggedIn, onLogout }) {
+function NavBar() {
+    const { logout, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
     const handleLogout = () => {
-        if (onLogout) onLogout();
-        window.location.href = '/login';
+        logout();
+        navigate('/login');
     };
 
     return (
@@ -18,11 +22,11 @@ function NavBar({ isLoggedIn, onLogout }) {
                 <Navbar.Toggle aria-controls="navbar-nav" />
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="me-auto align-items-center miNav">
-                        <Nav.Link href="/" className="nav-link">Inicio</Nav.Link>
-                        <Nav.Link href="/pedidos" className="nav-link">Órdenes</Nav.Link>
+                        <Nav.Link href="/" className="nav-link">Órdenes</Nav.Link>
+                        <Nav.Link href="/register" className="nav-link">Registrar Usuarios</Nav.Link>
                     </Nav>
                     <Nav className="align-items-center">
-                        {isLoggedIn ? (
+                        {isAuthenticated ? (
                             <Nav.Link onClick={handleLogout} className="nav-link d-flex align-items-center">
                                 <FiLogOut size={20} className="me-1" />
                             </Nav.Link>

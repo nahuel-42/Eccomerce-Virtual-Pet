@@ -21,10 +21,16 @@ const AuthService = {
   },
 
   register: async ({ name, email, password }) => {
+    const currentAdmin = JSON.parse(AuthService.getUserId());
     const response = await fetch(`${API_URL}/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password }),
+      body: JSON.stringify({
+        name,
+        email,
+        password,
+        adminId: currentAdmin,
+      }),
     });
 
     if (!response.ok) {
@@ -44,8 +50,17 @@ const AuthService = {
     return localStorage.getItem('token');
   },
 
+  saveUserId: (userId) => {
+    localStorage.setItem('userId', userId);
+  },
+
+  getUserId: () => {
+    return localStorage.getItem('userId');
+  },
+
   logout: () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('userId');
   },
 };
 

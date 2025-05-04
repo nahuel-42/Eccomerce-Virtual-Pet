@@ -8,24 +8,27 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [isInitialized, setIsInitialized] = useState(false);
 
-  // Verificamos si el usuario tiene un token en el localStorage al cargar la aplicación
   useEffect(() => {
     const token = AuthService.getToken();
-    if (token) {
+    const storedUser = AuthService.getUserId();
+
+    if (token && storedUser) {
       setIsAuthenticated(true);
-      // Aquí podrías hacer una llamada al backend para obtener los datos del usuario
-      setUser({ id: 1, name: 'Usuario', role: 'admin' }); // Esto es solo un ejemplo
+      setUser(JSON.parse(storedUser));
     }
+
+    setIsInitialized(true);
   }, []);
 
-  // Función para hacer login
-  const login = (token) => {
+  const login = (token, userId) => {
     AuthService.saveToken(token);
+    AuthService.saveUserId(userId);
+    setUser(user);
     setIsAuthenticated(true);
   };
 
-  // Función para hacer logout
   const logout = () => {
     AuthService.logout();
     setIsAuthenticated(false);
@@ -33,7 +36,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, isInitialized }}>
       {children}
     </AuthContext.Provider>
   );

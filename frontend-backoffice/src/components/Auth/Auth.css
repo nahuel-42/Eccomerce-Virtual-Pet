@@ -1,10 +1,20 @@
-/* General */
+.register-admin-page{
+  height: 100vh;
+}
+
+.register-admin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  top: 100px;
+}
+
 .auth-container {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, #fce4ec, #bbdefb);
 }
 
 .auth-card {
