@@ -35,7 +35,7 @@ const Orders = () => {
     };
 
     return (
-        <div className="container my-5">
+        <div className="container my-5" style={{ height: '100vh' }}>
             <p className="fs-2 fw-semibold">Mis pedidos</p>
             {error && <p className="text-danger">{error}</p>}
             {orders.length === 0 && !error ? (
