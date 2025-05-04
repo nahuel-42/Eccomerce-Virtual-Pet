@@ -3,24 +3,28 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FiLogOut, FiLogIn } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './NavBar.css';
 import CartWidget from '../CartWidget/CartWidget';
 
-function NavBar({ isLoggedIn, onLogout }) {
+function NavBar() {
+    const { logout, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
     const handleLogout = () => {
-        if (onLogout) onLogout();
-        window.location.href = '/login';
+        logout();
+        navigate('/login');
     };
 
     return (
-        <Navbar expand="md" className="miNavBar py-3" variant="dark">
+        <Navbar expand="md" className="bg-dark text-light py-3" variant="dark">
             <Container>
                 <Navbar.Brand href="/" className="logo">Virtual Pet</Navbar.Brand>
                 <Navbar.Toggle aria-controls="navbar-nav" />
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="me-auto align-items-center miNav">
                         <Nav.Link href="/" className="nav-link">Inicio</Nav.Link>
-                        <Nav.Link href="/nosotros" className="nav-link">Sobre Nosotros</Nav.Link>
                         <NavDropdown
                             title="Categorías"
                             id="nav-categorias"
@@ -36,10 +40,11 @@ function NavBar({ isLoggedIn, onLogout }) {
                                 </div>
                             </div>
                         </NavDropdown>
+                        <Nav.Link className="nav-link" href="/orders">Mis Pedidos</Nav.Link>
                     </Nav>
                     <Nav className="align-items-center">
                         <CartWidget/>
-                        {isLoggedIn ? (
+                        {isAuthenticated ? (
                             <Nav.Link onClick={handleLogout} className="nav-link d-flex align-items-center">
                                 <FiLogOut size={20} className="me-1" />
                             </Nav.Link>

@@ -10,7 +10,7 @@ const CartWidget = () => {
     return (
         <Link to='/cart' style={{ color: 'black', textDecoration: 'none' }}>
             <div className='divCart'>
-                <span className="material-symbols-outlined" style={{ color: 'black' }} >
+                <span className="material-symbols-outlined" style={{ color: 'white' }} >
                     shopping_cart
                 </span>
              

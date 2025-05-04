@@ -5,7 +5,7 @@ namespace Backend.Modules.Orders.Application.DTOs {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? DeliveredDate { get; set; }
-        public string Status { get; set; } = null!;
+        public int Status { get; set; }
         public string Phone { get; set; } = null!;
         public decimal? TotalPrice { get; set; }
         public string Address { get; set; } = null!;

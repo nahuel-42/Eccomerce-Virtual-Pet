@@ -1,1 +1,27 @@
-@import "tailwindcss";
+.bg-light-primary {
+    background-color: #a8c8ff;
+}
+
+.bg-light-warning {
+    background-color: #fce3a3;
+}
+
+.bg-light-orange {
+    background-color: #ffb8a9;
+}
+
+.bg-light-info {
+    background-color: #a1d8e6;
+}
+
+.bg-light-success {
+    background-color: #a9dba3;
+}
+
+.bg-light-danger {
+    background-color: #f8c1d4;
+}
+
+.bg-light-dark {
+    background-color: #b0b0b0;
+}

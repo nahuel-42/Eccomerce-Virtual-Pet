@@ -29,6 +29,32 @@ const OrderService = {
         } catch (err) {
             throw new Error(err.message || "No se pudo completar la orden. Intenta nuevamente.");
         }
+    },
+
+    async getOrders() {
+        try {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                throw new Error("No se encontró un token de autenticación. Por favor, inicia sesión.");
+            }
+
+            const response = await fetch(`${API_URL}/my-orders`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(`Error en la API: ${response.status} ${errorData.message || response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (err) {
+            throw new Error(err.message || "No se pudo obtener los pedidos. Intenta nuevamente.");
+        }
     }
 };
 

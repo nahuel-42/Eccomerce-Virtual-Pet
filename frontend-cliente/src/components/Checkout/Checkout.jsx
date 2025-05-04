@@ -57,7 +57,7 @@ const Checkout = () => {
                                 <p className='px-2 fs-1 fw-semibold text-white bg-success rounded bg-opacity-75'>#{orderId}</p>
                             </div>
                         </div>
-                        <Link to="/"> <button className="btn btn-secondary m-2">Ver pedidos</button> </Link>
+                        <Link to="/orders"> <button className="btn btn-secondary m-2">Ver pedidos</button> </Link>
                     </div>
                 </div>
             ) : (
