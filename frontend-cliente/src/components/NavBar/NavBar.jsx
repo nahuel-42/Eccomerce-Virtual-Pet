@@ -3,16 +3,19 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { FiLogOut, FiLogIn } from 'react-icons/fi';
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import './NavBar.css';
 import CartWidget from '../CartWidget/CartWidget';
 
-function NavBar({ isLoggedIn, onLogout }) {
-    const handleLogout = () => {
-        if (onLogout) onLogout(); 
-        localStorage.removeItem('token'); 
-        navigate('/login'); 
-    };
+function NavBar() {
+    const { logout, isAuthenticated } = useAuth();
+    const navigate = useNavigate();
 
+    const handleLogout = () => {
+        logout();
+        navigate('/login');
+    };
 
     return (
         <Navbar expand="md" className="bg-dark text-light py-3" variant="dark">
@@ -41,7 +44,7 @@ function NavBar({ isLoggedIn, onLogout }) {
                     </Nav>
                     <Nav className="align-items-center">
                         <CartWidget/>
-                        {isLoggedIn ? (
+                        {isAuthenticated ? (
                             <Nav.Link onClick={handleLogout} className="nav-link d-flex align-items-center">
                                 <FiLogOut size={20} className="me-1" />
                             </Nav.Link>

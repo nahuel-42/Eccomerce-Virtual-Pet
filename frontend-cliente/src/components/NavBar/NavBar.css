@@ -15,61 +15,57 @@
     font-size: xx-large;
     font-family: 'Alegreya Sans SC', sans-serif; 
 }
-/* Oculta el elemento con la clase 'z-10' */
-
-
-/* O si deseas basarte en el atributo 'data-testid' */
 
 .multi-col-dropdown {
-    width: 700px !important;
-  }
-  
-  .dropdown-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-  
-  .dropdown-header {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: #6c757d;
-    margin-bottom: 0.5rem;
-  }
-  
-  :root {
-    --primary-color: #fc9288;    /* Coral vibrante */
-    --secondary-color: #4A90E2;  /* Azul cielo */
-    --accent-color: #FFD700;     /* Amarillo cálido */
-    --bg-dropdown: #FFFFFF;      /* Blanco para dropdown */
-    --text-dark: #333333;
-  }
-  
-  .nav-link {
-    color: white !important;
-    font-weight: 500;
-  }
-  
-  .multi-col-dropdown {
-    width: 680px !important;
-    background: var(--bg-dropdown);
-    border-radius: 0.5rem;
-  }
-  
-  .dropdown-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-  }
-  
-  .dropdown-header {
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--secondary-color);
-    margin-bottom: 0.5rem;
-  }
-  
-  .navbar-dark .navbar-toggler-icon {
-    filter: brightness(0) invert(1);
-  }
+  width: 700px !important;
+}
+
+.dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.dropdown-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #6c757d;
+  margin-bottom: 0.5rem;
+}
+
+:root {
+  --primary-color: #fc9288;
+  --secondary-color: #4A90E2;
+  --accent-color: #FFD700;
+  --bg-dropdown: #FFFFFF;
+  --text-dark: #333333;
+}
+
+.nav-link {
+  color: white !important;
+  font-weight: 500;
+}
+
+.multi-col-dropdown {
+  width: 680px !important;
+  background: var(--bg-dropdown);
+  border-radius: 0.5rem;
+}
+
+.dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+.dropdown-header {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+.navbar-dark .navbar-toggler-icon {
+  filter: brightness(0) invert(1);
+}
 
