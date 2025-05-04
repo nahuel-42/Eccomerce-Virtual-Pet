@@ -3,11 +3,21 @@ import { Link } from "react-router-dom";
 import { ChartContext } from "../../context/ChartContext";
 import { useContext } from "react";
 import './Cart.css';
-import Button from 'react-bootstrap/Button';
-
+import { useAuth } from '../../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const Cart = () => {
     const { carrito, vaciarCarrito, total, cantidadTotal } = useContext(ChartContext);
+    const { isAuthenticated } = useAuth();
+    const navigate = useNavigate();
+
+    const handleCheckout = () => {
+        if (!isAuthenticated) {
+            navigate('/login');
+        } else {
+            navigate('/checkout');
+        }
+    };
 
     if (cantidadTotal === 0) {
         return (
@@ -47,7 +57,9 @@ const Cart = () => {
                                 <p className='fs-1 fw-semibold text-success'>$ {total}  </p>
                             </div>
                             <div className="d-flex flex-column">
-                                <Link to="/checkout" style={{ textDecoration: 'none' }}> <button className='btn btn-dark w-100 mt-2'>Finalizar compra</button> </Link>
+                                <button className='btn btn-dark w-100 mt-2' onClick={handleCheckout}>
+                                    Finalizar compra
+                                </button>
                                 <Link to="/" style={{ textDecoration: 'none' }}> <button className='btn btn-secondary w-100 mt-2'>Ver más productos</button> </Link>
                             </div>
                         </div>
