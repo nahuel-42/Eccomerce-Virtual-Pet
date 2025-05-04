@@ -20,8 +20,7 @@ export function LoginForm() {
     try {
       const response = await AuthService.login({ email, password });
 
-      // Cambiar el número de rol de admin
-      if (response.user?.role?.id !== 3) {
+      if (response.user?.role?.id !== 1) {
         setError('No tenés permisos para acceder a esta aplicación.');
         return;
       }
