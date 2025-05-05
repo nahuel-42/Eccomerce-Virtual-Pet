@@ -2,7 +2,9 @@
 .item-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    grid-template-rows: repeat(2, 1fr);
+    gap: 40px 10px;
     width: 100%;
-    margin: 20px auto 20px auto;
+    margin-right: 20px;
+    place-items: center;
 }

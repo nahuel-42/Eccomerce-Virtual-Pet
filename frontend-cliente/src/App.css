@@ -1,5 +1,3 @@
-@import "tailwindcss";
-
 /* Colores personalizados para los estados del pedido */
 .bg-light-primary {
     background-color: #e3f2fd; /* Azul pastel */
