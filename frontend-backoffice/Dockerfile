@@ -16,7 +16,7 @@ FROM nginx:stable-alpine
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copiar archivos estáticos generados por Vite
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder /app/dist /usr/share/nginx/html/admin
 
 EXPOSE 80
 

@@ -13,16 +13,17 @@ import OrdersPage from './components/OrderPage/OrderPage';
 
 function AppWrapper() {
   const location = useLocation();
-  const hideNav = ['/login'].includes(location.pathname);
+  const hideNav = ['/admin/login'].includes(location.pathname);
+
 
   return (
     <>
       {!hideNav && <NavBar />}
       <Routes>
-        <Route path="/login" element={<LoginForm />} />
-        <Route path="/register" element={<PrivateRoute><RegistrationForm /></PrivateRoute>}/>
+        <Route path="/admin/login" element={<LoginForm />} />
+        <Route path="/admin/register" element={<PrivateRoute><RegistrationForm /></PrivateRoute>}/>
         <Route
-          path="/"
+          path="/admin"
           element={
             <PrivateRoute>
               <OrdersPage />

@@ -5,6 +5,8 @@ services:
       context: ./frontend-backoffice
       dockerfile: Dockerfile
     container_name: frontend-backoffice
+    ports:
+      - "5174:80"  # Puerto interno de Nginx 80 a 5173 en el host
     networks:
       - app-network
     restart: always
