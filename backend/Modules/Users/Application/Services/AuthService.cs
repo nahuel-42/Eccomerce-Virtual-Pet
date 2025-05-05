@@ -95,15 +95,11 @@ namespace Backend.Modules.Users.Application.Services {
             var hashed = _passwordService.HashPassword(user, request.Password);
             user.SetPassword(hashed);
 
-            var defaultRole = await _roleQueries.GetByIdAsync(2);
-            
-            if (defaultRole == null)
-                return new RegisterResponse
-                {
-                    Message = "Default role not found"
-                };
+            var defaultRole = 2; // User
 
-            user.SetRole(new Role(defaultRole.Name, defaultRole.Description));
+            var role = request.AdminId.HasValue ? 1 : defaultRole; // Admin
+
+            user.RoleId = role;
 
             // TODO: Pasar la logica de creacion de usuarios a un factory
             _context.Users.Add(user);

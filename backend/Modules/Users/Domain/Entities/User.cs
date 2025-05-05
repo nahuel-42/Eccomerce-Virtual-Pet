@@ -7,7 +7,6 @@ public class User
       public string Name { get; private set; }
       public string Email { get; private set; }
       public string PasswordHash { get; private set; }
-      public Role Role { get; private set; }
 
       [Required]
         public int RoleId { get; set; }
@@ -20,5 +19,6 @@ public class User
       public void SetRole(Role role) => Role = role;
 
       public void SetPassword(string passwordHash) => PasswordHash = passwordHash;
+      public Role Role { get; private set; }
   }
 }

@@ -16,7 +16,6 @@ namespace Backend.Modules.Users.Application.Queries
             _usersDbContext = usersDbContext;
         }
 
-        // Busca un rol por su ID.
         public async Task<RoleDto> GetByIdAsync(int id)
         {
             var role = await _usersDbContext.Roles
@@ -30,6 +29,18 @@ namespace Backend.Modules.Users.Application.Queries
                 Name = role.Name,
                 Description = role.Description
             };
+        }
+
+        public async Task<List<RoleDto>> GetRolesAsync()
+        {
+            return await _usersDbContext.Roles
+                .Select(r => new RoleDto
+                {
+                    Id = r.Id,
+                    Name = r.Name,
+                    Description = r.Description
+                })
+                .ToListAsync();
         }
     }
 }
