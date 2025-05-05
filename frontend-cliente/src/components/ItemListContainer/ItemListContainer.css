@@ -1,6 +1,4 @@
 .divList{
-    position:relative;
-    top: 100px;
-    margin: 20px;
-    height: 100vh;
+    margin-top: 60px;
+    margin-bottom: 60px;    
 }

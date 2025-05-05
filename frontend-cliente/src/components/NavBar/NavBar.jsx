@@ -25,21 +25,6 @@ function NavBar() {
                 <Navbar.Collapse id="navbar-nav">
                     <Nav className="me-auto align-items-center miNav">
                         <Nav.Link href="/" className="nav-link">Inicio</Nav.Link>
-                        <NavDropdown
-                            title="Categorías"
-                            id="nav-categorias"
-                            className="nav-link"
-                            menuClassName="multi-col-dropdown"
-                        >
-                            <div className="dropdown-grid">
-                                <div>
-                                    <div className="dropdown-header">Categorías por Animal</div>
-                                    <NavDropdown.Item href="/category/perro">Perro</NavDropdown.Item>
-                                    <NavDropdown.Item href="/category/gato">Gato</NavDropdown.Item>
-                                    <NavDropdown.Item href="/category/pajaro">Pájaro</NavDropdown.Item>
-                                </div>
-                            </div>
-                        </NavDropdown>
                         <Nav.Link className="nav-link" href="/orders">Mis Pedidos</Nav.Link>
                     </Nav>
                     <Nav className="align-items-center">
