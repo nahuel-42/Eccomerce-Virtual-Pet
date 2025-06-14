@@ -17,12 +17,17 @@ namespace Backend.Modules.Orders.Application.Factories
             if (!string.IsNullOrEmpty(updateOrderDto.Phone))
                 order.Phone = updateOrderDto.Phone;
 
-            if (updateOrderDto.OrderStatusId.HasValue && 
-                updateOrderDto.OrderStatusId == (int)OrderStatusEnum.Entregado && 
+            if (updateOrderDto.OrderStatusId.HasValue &&
+                updateOrderDto.OrderStatusId == (int)OrderStatusEnum.Entregado &&
                 order.DeliveredDate == null)
             {
                 order.DeliveredDate = DateTime.UtcNow;
             }
+        }
+        
+        public void UpdateStatus(Order order, OrderStatusEnum status)
+        {
+            order.OrderStatusId = (int)status;
         }
     }
 }

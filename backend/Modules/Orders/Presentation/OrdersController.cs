@@ -112,7 +112,7 @@ namespace Backend.Modules.Orders.Presentation{
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
-
+        /*
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateOrder(int id, [FromBody] UpdateOrderDto updateOrderDto)
         {
@@ -135,5 +135,6 @@ namespace Backend.Modules.Orders.Presentation{
                 return StatusCode(500, $"Internal server error: {ex.Message}");
             }
         }
+        */
     }
 }

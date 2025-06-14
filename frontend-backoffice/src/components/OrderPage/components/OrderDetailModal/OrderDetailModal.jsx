@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import { getOrderById, updateOrder } from '../../../../services/order.service';
+import { Modal, Button } from 'react-bootstrap';
+import { getOrderById } from '../../../../services/order.service';
 import { ORDER_STATUS_OPTIONS } from '../../constants/order-status';
+import StatusRenderer from '../StatusRenderer/StatusRenderer';
 
-export default function OrderDetailModal({ orderId, show, onHide, onOrderUpdated }) {
+
+export default function OrderDetailModal({ orderId, show, onHide }) {
   const [order, setOrder] = useState(null);
   const [status, setStatus] = useState();
 
@@ -16,14 +18,9 @@ export default function OrderDetailModal({ orderId, show, onHide, onOrderUpdated
     }
   }, [orderId, show]);
 
-  const handleSave = () => {
-    updateOrder(orderId, { orderStatusId: status }).then(() => {
-      onHide();
-      onOrderUpdated();
-    });
-  };
-
   if (!order) return null;
+
+  const statusLabel = ORDER_STATUS_OPTIONS.find(opt => opt.value === status)?.label || 'Desconocido';
 
   return (
     <Modal show={show} onHide={onHide} size="lg">
@@ -36,27 +33,16 @@ export default function OrderDetailModal({ orderId, show, onHide, onOrderUpdated
         <p><strong>Cliente:</strong> {order.user?.name} ({order.user?.email})</p>
         <p><strong>Productos:</strong></p>
         <ul>
-        {order.products.map((p, idx) => (
-          <li key={`${p.productId}-${idx}`}>
-            {p.name} - {p.quantity} x ${p.unitPrice}
-          </li>
-        ))}
+          {order.products.map((p, idx) => (
+            <li key={`${p.productId}-${idx}`}>
+              {p.name} - {p.quantity} x ${p.unitPrice}
+            </li>
+          ))}
         </ul>
-
-        <Form.Group>
-          <Form.Label>Estado</Form.Label>
-          <Form.Select value={status} onChange={(e) => setStatus(Number(e.target.value))}>
-            {ORDER_STATUS_OPTIONS.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </Form.Select>
-        </Form.Group>
+        <p><strong>Estado:</strong> <StatusRenderer value={status} /></p>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={onHide}>Cancelar</Button>
-        <Button variant="primary" onClick={handleSave}>Guardar Cambios</Button>
+        <Button variant="secondary" onClick={onHide}>Cerrar</Button>
       </Modal.Footer>
     </Modal>
   );
