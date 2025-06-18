@@ -37,7 +37,7 @@ namespace Backend.Modules.Connection.Infrastructure.Services
                         using var handlerScope = _serviceProvider.CreateScope();
                         var orderService = handlerScope.ServiceProvider.GetRequiredService<IOrderCommands>();
 
-                        _logger.LogInformation("Processing update_status request for Order Number: {OrderNumber}", orderRequest.orderNumber);
+                        _logger.LogInformation("Processing update_status request for Order Number: {OrderNumber}", orderRequest.OrderNumber);
 
                         var createdOrder = await orderService.UpdateOrderStatusAsync(orderRequest);
 
@@ -45,7 +45,7 @@ namespace Backend.Modules.Connection.Infrastructure.Services
                     }
                     catch (Exception ex)
                     {
-                        _logger.LogError(ex, "Error processing update_status request for Order Number: {OrderNumber}", orderRequest.orderNumber);
+                        _logger.LogError(ex, "Error processing update_status request for Order Number: {OrderNumber}", orderRequest.OrderNumber);
                         using var errorScope = _serviceProvider.CreateScope();
                         var publisher = errorScope.ServiceProvider.GetRequiredService<IMessagePublisher>();
                         // ✅ publicar mensaje de error

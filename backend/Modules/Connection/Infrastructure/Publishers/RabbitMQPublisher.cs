@@ -110,7 +110,7 @@ namespace Backend.Modules.Connection.Infrastructure.Publishers
 
         public void Dispose()
         {
-            _channel?.Dispose();
+            //_channel?.Dispose();
         }
     }
 }

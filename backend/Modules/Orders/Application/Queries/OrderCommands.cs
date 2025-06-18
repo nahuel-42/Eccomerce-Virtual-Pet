@@ -80,15 +80,15 @@ namespace Backend.Modules.Orders.Application.Queries {
         }
         private OrderStatusEnum OrderStatusAdapter(UpdateOrderStatusContract updateOrderStatusContract)
         {
-            return updateOrderStatusContract.status switch
+            return updateOrderStatusContract.Status switch
             {
-                "RECEIVED" => OrderStatusEnum.Recibido,
-                "READY_TO_SHIP" => OrderStatusEnum.Procesando,
-                "OUT_FOR_DELIVERY" => OrderStatusEnum.EnCamino,
-                "DELIVERED" => OrderStatusEnum.Entregado,
-                "DELIVERY_FAILED" => OrderStatusEnum.FallaEntrega,
-                _ => throw new ArgumentOutOfRangeException(nameof(updateOrderStatusContract.status),
-                    $"Unknown status from broker: {updateOrderStatusContract.status}")
+                1 => OrderStatusEnum.Recibido,
+                2 => OrderStatusEnum.Procesando,
+                3 => OrderStatusEnum.EnCamino,
+                4 => OrderStatusEnum.Entregado,
+                5 => OrderStatusEnum.FallaEntrega,
+                _ => throw new ArgumentOutOfRangeException(nameof(updateOrderStatusContract.Status),
+                    $"Unknown status from broker: {updateOrderStatusContract.Status}")
             };
         }
         
@@ -97,15 +97,15 @@ namespace Backend.Modules.Orders.Application.Queries {
             var errores = new List<string>();
 
             // Validación 1: orderNumber
-            if (string.IsNullOrWhiteSpace(contract.orderNumber))
+            if (string.IsNullOrWhiteSpace(contract.OrderNumber))
             {
-                errores.Add("El campo 'orderNumber' no puede ser nulo o vacío.");
+                errores.Add("El campo 'OrderNumber' no puede ser nulo o vacío.");
             }
 
             // Validación 2: parseo de ID
-            if (!int.TryParse(contract.orderNumber, out int orderId))
+            if (!int.TryParse(contract.OrderNumber, out int orderId))
             {
-                errores.Add($"El campo 'orderNumber' debe ser un número válido. Valor recibido: {contract.orderNumber}");
+                errores.Add($"El campo 'orderNumber' debe ser un número válido. Valor recibido: {contract.OrderNumber}");
                 // No tiene sentido seguir validando si no tenemos ID
                 if (errores.Any())
                     throw new ArgumentException(string.Join(" | ", errores));
@@ -127,7 +127,7 @@ namespace Backend.Modules.Orders.Application.Queries {
             }
             catch (ArgumentOutOfRangeException)
             {
-                errores.Add($"El estado recibido '{contract.status}' no es válido.");
+                errores.Add($"El estado recibido '{contract.Status}' no es válido.");
                 // No tiene sentido seguir sin estado válido
                 throw new ArgumentException(string.Join(" | ", errores));
             }

@@ -21,9 +21,9 @@ namespace Backend.Modules.Connection.MessageContracts
     // Recibo update de estado de orden
     public class UpdateOrderStatusContract
     {
-        public string orderNumber { get; set; }
+        public string OrderNumber { get; set; }
 
-        public string status { get; set; }
+        public int Status { get; set; }
     }
 
 
