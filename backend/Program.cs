@@ -15,6 +15,11 @@ using Backend.Modules.Orders.Infrastructure.Persistence;
 using Backend.Modules.Orders.Application.Interfaces;
 using Backend.Modules.Orders.Application.Queries;
 using Backend.Modules.Orders.Application.Factories;
+using Backend.Modules.Orders.Application.Events;
+using Backend.Modules.Connection.Infrastructure.RabbitMQ;
+using Backend.Modules.Connection.Infrastructure.Publishers;
+using Backend.Modules.Connection.Domain.Services;
+using Backend.Modules.Connection.Infrastructure.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -49,6 +54,27 @@ builder.Services.AddCors(options =>
 
 var jwtKey = builder.Configuration["Jwt:Key"];
 var key = Encoding.ASCII.GetBytes(jwtKey);
+
+// RabbitMQ Configuration
+builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.AddSingleton<RabbitMQSettings>(provider =>
+{
+    var settings = new RabbitMQSettings();
+    builder.Configuration.GetSection("RabbitMQ").Bind(settings);
+    return settings;
+});
+builder.Services.AddSingleton<IRabbitMQConnection>(provider =>
+{
+    var settings = provider.GetRequiredService<RabbitMQSettings>();
+    return new RabbitMQConnection(settings);
+});
+
+// Connection Module - Message Services
+builder.Services.AddScoped<IMessagePublisher, RabbitMQPublisher>();
+builder.Services.AddScoped<IMessageConsumer, RabbitMQConsumer>();
+builder.Services.AddScoped<IOrderEventPublisher, OrderEventPublisher>();
+
+builder.Services.AddHostedService<MessageConsumerService>();
 
 // Configuración de servicios
 builder.Services.AddScoped<ImporterService>();

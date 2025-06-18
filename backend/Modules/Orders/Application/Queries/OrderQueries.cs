@@ -16,7 +16,7 @@ namespace Backend.Modules.Orders.Application.Queries {
         private readonly IProductQueries _productQueries;
         private readonly IUserQueries _userQueries;
 
-        
+
         public OrderQueries(OrdersDbContext context, IProductQueries productQueries, IUserQueries userQueries)
         {
             _context = context;
